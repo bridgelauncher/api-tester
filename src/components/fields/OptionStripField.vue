@@ -1,10 +1,11 @@
 <script setup lang="ts" generic="T">
+import type { OptionStripOption } from './option-strip-field';
 
 const model = defineModel<T>({ required: true });
 
 const props = defineProps<{
     label?: string;
-    options: { label: string, value: T, }[];
+    options: OptionStripOption<T>[];
 }>();
 
 </script>
@@ -25,13 +26,6 @@ const props = defineProps<{
 
 <style scoped lang="scss">
 .option-strip.field {
-    > label {
-        display: block;
-        @extend %type-pri;
-        color: c.$text-sec;
-        margin-bottom: sz.$pad-half;
-        padding: 0 calc(sz.$corner-medium / 2);
-    }
 
     > .strip {
         display: flex;
@@ -59,4 +53,4 @@ const props = defineProps<{
         margin-top: sz.$pad;
     }
 }
-</style>
+</style>./fields

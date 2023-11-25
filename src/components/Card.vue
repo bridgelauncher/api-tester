@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import IconButton from './IconButton.vue';
+import IconButton from '@/components/buttons/IconButton.vue';
 
 
 const props = defineProps<{
@@ -30,12 +30,13 @@ const props = defineProps<{
 .card {
     background-color: c.$bg-default;
     border-radius: sz.$corner-large;
+    transition: background-color $ease-mat-accel-decel $dur-medium;
 
     > header {
         display: flex;
         flex-direction: row;
         align-items: center;
-        min-height: sz.$click-target;
+        min-height: sz.$bar;
 
         .title {
             @extend %type-header;

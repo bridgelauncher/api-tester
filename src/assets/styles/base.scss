@@ -17,6 +17,8 @@
 
 .bridge-tester-root {
     @include c.theme-vars(c.$theme-light);
+    color-scheme: light;
+
     @include sz.size-vars(sz.$sizes);
     @include t.font-family-vars(t.$font-families);
 
@@ -44,6 +46,10 @@
         @extend %type-jumbo;
     }
 
+    .type-title {
+        @extend %type-title;
+    }
+
     .type-header {
         @extend %type-header;
     }
@@ -55,11 +61,15 @@
     .type-pri {
         @extend %type-pri;
     }
-
+    
     .type-sec {
         @extend %type-sec;
     }
     
+    .type-button {
+        @extend %type-button;
+    }
+
     .col {
         display: flex;
         flex-direction: column;
@@ -70,13 +80,24 @@
         flex-direction: row;
     }
 
-    .field + .field {
-        margin-top: sz.$pad-min;
+    .field {
+        > label {
+            display: block;
+            @extend %type-pri;
+            color: c.$text-sec;
+            margin-bottom: sz.$pad-half;
+            padding: 0 calc(sz.$corner-medium / 2);
+        }
+
+        + .field {
+            margin-top: sz.$pad-min;
+        }
     }
 }
 
 @media (prefers-color-scheme: dark) {
     .bridge-tester-root {
         @include c.theme-vars(c.$theme-dark);
+        color-scheme: dark;
     }
 }

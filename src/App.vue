@@ -55,7 +55,6 @@ function showToast()
     display: flex;
     flex-direction: row;
     align-items: start;
-    padding-top: sz.$pad-double;
     overflow: auto;
     scroll-snap-type: x mandatory;
     
@@ -67,11 +66,10 @@ function showToast()
         width: 100%;
         flex-shrink: 0;
         min-height: 100%;
-        padding: sz.$pad-half;
-        padding-top: sz.$pad-double;
+        padding: sz.$pad-double sz.$pad-half;
         scroll-snap-align: center;
         scroll-snap-stop: always;
-        max-width: math.div(1920px, 4);
+        max-width: math.div(1920px - 17px, 4);
     }
 
     > .system-bar-bg {

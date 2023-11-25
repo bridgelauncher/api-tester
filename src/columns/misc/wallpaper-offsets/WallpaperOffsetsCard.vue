@@ -2,9 +2,9 @@
 import { computed, ref } from 'vue';
 import { f2 } from '@/utils/format-utils';
 import Card from '@/components/Card.vue';
-import CheckboxField from '@/components/CheckboxField.vue';
-import NumberField from '@/components/NumberField.vue';
-import SliderField from '@/components/SliderField.vue';
+import CheckboxField from '@/components/fields/CheckboxField.vue';
+import NumberField from '@/components/fields/NumberField.vue';
+import SliderField from '@/components/fields/SliderField.vue';
 
 
 const usePageScroll = ref(false);

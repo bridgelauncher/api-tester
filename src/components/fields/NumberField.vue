@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { mdiMinus, mdiPlus } from '@mdi/js';
-import IconButton from './IconButton.vue';
+import IconButton from '@/components/buttons/IconButton.vue';
 
 const model = defineModel<number>({ required: true });
 
@@ -57,6 +57,10 @@ function decr()
     height: sz.$click-target;
     gap: sz.$pad-half;
     padding: 0 sz.$pad-half;
+
+    > label {
+        margin: 0;
+    }
 
     > .name {
         min-width: 20px;

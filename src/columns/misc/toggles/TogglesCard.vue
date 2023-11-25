@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import Card from '@/components/Card.vue';
-import OptionStripField from '@/components/OptionStripField.vue';
-import { opt } from '@/components/option-strip-field';
+import OptionStripField from '@/components/fields/OptionStripField.vue';
+import { opt } from '@/components/fields/fields';
 
 
 const bridgeButtonShown = ref(false);
@@ -80,4 +80,4 @@ const navigationBarAppearance = ref(SystemBarAppearanceOptions.Hidden);
     </Card>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss"></style>@/components/fields/option-strip-field@/components/fields/fields

@@ -4,7 +4,7 @@ import Card from '@/components/Card.vue';
 import AppListItem from './AppListItem.vue';
 import { mdiClose, mdiMagnify, mdiRefresh, mdiSelectSearch } from '@mdi/js';
 import SvgIcon from '@/components/SvgIcon.vue';
-import IconButton from '@/components/IconButton.vue';
+import IconButton from '@/components/buttons/IconButton.vue';
 import { computed, ref } from 'vue';
 import Tip from '@/components/Tip.vue';
 
@@ -43,7 +43,7 @@ const filteredApps = computed(() =>
                     @click="searchPhrase = ''" />
             </div>
             <div class="separator"></div>
-            <main>
+            <main class="app-list">
                 <template v-if="filteredApps.length > 0">
                     <AppListItem
                         v-for="app in filteredApps"
@@ -88,5 +88,10 @@ const filteredApps = computed(() =>
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
+}
+
+.card > .app-list {
+    padding-left: 0;
+    padding-right: 0;
 }
 </style>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { mdiCheckboxBlankOutline, mdiCheckboxMarked } from '@mdi/js';
-import SvgIcon from './SvgIcon.vue';
+import SvgIcon from '@/components/SvgIcon.vue';
 
 const model = defineModel<boolean>({ required: true, });
 

@@ -1,0 +1,1 @@
+export type TextButtonVariant = 'flat' | 'outlined';

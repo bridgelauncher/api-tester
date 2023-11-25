@@ -16,6 +16,7 @@
 
 $sizes: (
     click-target: 48px,
+    bar: 56px,
     pad-min: 4px,
     pad-half: 8px,
     pad-icon: 12px,
@@ -32,6 +33,7 @@ $sizes: (
     font-sec: 12px,
 );
 
+$bar: _sz(bar);
 $click-target: _sz(click-target);
 $pad-half: _sz(pad-half);
 $pad-min: _sz(pad-min);

@@ -2,6 +2,8 @@
 import Card from '@/components/Card.vue';
 import WallpaperOffsetsCard from './wallpaper-offsets/WallpaperOffsetsCard.vue';
 import TogglesCard from './toggles/TogglesCard.vue';
+import MiscActionsCard from './actions/MiscActionsCard.vue';
+import ShowToastCard from './show-toast/ShowToastCard.vue';
 
 
 </script>
@@ -10,6 +12,8 @@ import TogglesCard from './toggles/TogglesCard.vue';
     <div class="column">
         <WallpaperOffsetsCard />
         <TogglesCard />
+        <MiscActionsCard />
+        <ShowToastCard />
     </div>
 </template>
 
