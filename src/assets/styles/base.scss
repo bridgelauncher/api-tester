@@ -69,6 +69,10 @@
         display: flex;
         flex-direction: row;
     }
+
+    .field + .field {
+        margin-top: sz.$pad-min;
+    }
 }
 
 @media (prefers-color-scheme: dark) {

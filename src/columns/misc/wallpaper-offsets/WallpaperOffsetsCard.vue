@@ -67,18 +67,11 @@ const yOffset = ref(0.5);
 <style scoped lang="scss">
 .card {
     .cbx-container {
-        padding-left: sz.$pad-half;
-        padding-right: sz.$pad-half;
-    }
-
-    .fields {
-        display: flex;
-        flex-direction: column;
-        gap: sz.$pad-min;
-        padding: sz.$pad;
+        padding: sz.$pad-half;
     }
 
     .type-caption {
+        display: block;
         margin-bottom: sz.$pad-half;
     }
 }

@@ -61,7 +61,7 @@ function decr()
     > .name {
         min-width: 20px;
     }
-        
+
     > input {
         @extend %type-pri;
         background-color: c.$bg-field;
@@ -74,13 +74,13 @@ function decr()
         min-width: 0;
         outline: none;
     }
-    
-        > .computed {
-            min-width: 30px;
-            text-align: right;
-            color: c.$text-sec;
-        }
-    
+
+    > .computed {
+        min-width: 30px;
+        text-align: right;
+        color: c.$text-sec;
+    }
+
     &.disabled {
         opacity: c.$opacity-disabled;
         pointer-events: none;

@@ -27,6 +27,7 @@ function showToast()
         :class="{ 'dev': envIsDev }"
         :style="{
             'padding-top': px(bridgeStore.statusBarHeight),
+            'padding-bottom': px(bridgeStore.navigationBarHeight),
         }">
 
         <div class="system-bar-bg top" :style="{
@@ -53,20 +54,22 @@ function showToast()
     height: 100%;
     display: flex;
     flex-direction: row;
+    align-items: start;
     padding-top: sz.$pad-double;
     overflow: auto;
     scroll-snap-type: x mandatory;
-
+    
     &.dev {
         background-color: #404040;
     }
 
     :deep(> .column) {
-        width: 100vw;
+        width: 100%;
         flex-shrink: 0;
+        min-height: 100%;
         padding: sz.$pad-half;
         padding-top: sz.$pad-double;
-        scroll-snap-align: start;
+        scroll-snap-align: center;
         scroll-snap-stop: always;
         max-width: math.div(1920px, 4);
     }

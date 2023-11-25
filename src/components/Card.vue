@@ -53,7 +53,11 @@ const props = defineProps<{
     }
 
     :deep(> main) {
-        padding: sz.$pad-half 0;
+        padding: sz.$pad;
+    }
+
+    + .card {
+        margin-top: sz.$pad;
     }
 }
 </style>
