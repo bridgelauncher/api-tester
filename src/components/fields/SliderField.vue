@@ -58,6 +58,8 @@ const progressF = computed(() =>
 </template>
 
 <style scoped lang="scss">
+@use "sass:math";
+
 .slider.field {
     display: flex;
     flex-direction: row;
@@ -135,7 +137,7 @@ const progressF = computed(() =>
                 -webkit-appearance: none;
                 width: 1px;
                 height: 24px;
-                margin-top: -(24px - 2px) / 2;
+                margin-top: math.div(24px - 2px, -2);
                 background-color: red;
             }
 

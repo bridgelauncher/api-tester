@@ -1,16 +1,8 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-export interface InstalledApp
-{
-    uid: number;
-    packageName: string;
-    label: string;
-    labelNormalized: string;
-}
-
 let uid = 0;
-function app(label: string, packageName: string): InstalledApp
+function app(label: string, packageName: string): Bridge.InstalledAppInfo
 {
     return {
         uid: uid++,
@@ -33,12 +25,17 @@ export const useBridgeStore = defineStore('Bridge', () =>
     const statusBarHeight = ref(24);
     const navigationBarHeight = ref(48);
 
-    const installedApps = ref<InstalledApp[]>([
+    const installedApps = ref<Bridge.InstalledAppInfo[]>([
         app('App name 1', 'com.example.app1'),
         app('Launchma', 'ask.you.launchma'),
     ]);
 
     function reloadApps()
+    {
+
+    }
+
+    function clearStateUpdateHistory()
     {
 
     }
@@ -49,5 +46,7 @@ export const useBridgeStore = defineStore('Bridge', () =>
 
         installedApps,
         reloadApps,
+
+        clearStateUpdateHistory,
     };
 });

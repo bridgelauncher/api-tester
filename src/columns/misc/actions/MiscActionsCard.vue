@@ -24,6 +24,9 @@ function throwError()
             <ActionListItem @click="">
                 Lock screen
             </ActionListItem>
+            <ActionListItem @click="">
+                Request change system wallpaper
+            </ActionListItem>
         </main>
         <div class="separator"></div>
         <main>

@@ -45,11 +45,7 @@ const props = defineProps<{
 
         > .actions {
             margin-left: auto;
-
-            > .btn.icon {
-                border-radius: sz.$corner-large;
-                border-bottom-right-radius: 0;
-            }
+            padding-right: sz.$pad-min;
         }
     }
 
