@@ -1,0 +1,78 @@
+@font-face {
+    font-family: "Francois One";
+    src: url("@/assets/fonts/FrancoisOne-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Signika";
+    font-weight: normal;
+    src: url("@/assets/fonts/Signika-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Signika";
+    font-weight: 600;
+    src: url("@/assets/fonts/Signika-SemiBold.ttf") format("truetype");
+}
+
+.bridge-tester-root {
+    @include c.theme-vars(c.$theme-light);
+    @include sz.size-vars(sz.$sizes);
+    @include t.font-family-vars(t.$font-families);
+
+    @extend %type-pri;
+
+    box-sizing: border-box;
+    margin: 0;
+    user-select: none;
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+        margin: 0;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .separator {
+        height: sz.$border-regular;
+        width: 100%;
+        background-color: c.$border-soft;
+    }
+
+    .type-jumbo {
+        @extend %type-jumbo;
+    }
+
+    .type-header {
+        @extend %type-header;
+    }
+
+    .type-caption {
+        @extend %type-caption;
+    }
+
+    .type-pri {
+        @extend %type-pri;
+    }
+
+    .type-sec {
+        @extend %type-sec;
+    }
+    
+    .col {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .bridge-tester-root {
+        @include c.theme-vars(c.$theme-dark);
+    }
+}

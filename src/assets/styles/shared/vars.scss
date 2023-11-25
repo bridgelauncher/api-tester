@@ -1,0 +1,8 @@
+$dur-tiny: 0.1s;
+$dur-short: 0.25s;
+$dur-medium: 0.33s;
+$dur-long: 0.5s;
+
+$ease-mat-accel-decel: cubic-bezier(0.4, 0.0, 0.2, 1);
+$ease-mat-accel: cubic-bezier(0.4, 0.0, 1, 1);
+$ease-mat-decel: cubic-bezier(0.0, 0.0, 0.2, 1);

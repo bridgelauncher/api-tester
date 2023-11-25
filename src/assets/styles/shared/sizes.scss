@@ -1,0 +1,49 @@
+
+@function _full-var-name($name)
+{
+    @return --sz-#{$name};
+}
+
+@function _sz($name) {
+    @return var(_full-var-name($name));
+}
+
+@mixin size-vars($sizes) {
+    @each $name, $value in $sizes {
+        #{_full-var-name($name)}: #{$value};
+    }
+}
+
+$sizes: (
+    click-target: 48px,
+    pad-min: 4px,
+    pad-half: 8px,
+    pad-icon: 12px,
+    pad: 16px,
+    pad-one-and-half: 24px,
+    pad-double: 32px,
+    border-regular: 1px,
+    corner-small: 4px,
+    corner-medium: 8px,
+    corner-large: 16px,
+    font-jumbo: 32px,
+    font-title: 20px,
+    font-pri: 16px,
+    font-sec: 12px,
+);
+
+$click-target: _sz(click-target);
+$pad-half: _sz(pad-half);
+$pad-min: _sz(pad-min);
+$pad: _sz(pad);
+$pad-icon: _sz(pad-icon);
+$pad-one-and-half: _sz(pad-one-and-half);
+$pad-double: _sz(pad-double);
+$border-regular: _sz(border-regular);
+$corner-small: _sz(corner-small);
+$corner-medium: _sz(corner-medium);
+$corner-large: _sz(corner-large);
+$font-jumbo: _sz(font-jumbo);
+$font-title: _sz(font-title);
+$font-pri: _sz(font-pri);
+$font-sec: _sz(font-sec);

@@ -1,0 +1,71 @@
+@use "./colors.scss" as c;
+@use "./sizes.scss" as sz;
+
+@function -full-var-name($name)
+{
+    @return --ff-#{$name};
+}
+
+@function -ff($name) {
+    @return var(-full-var-name($name));
+}
+
+@mixin font-family-vars($families) {
+    @each $name, $value in $families {
+        #{-full-var-name($name)}: #{$value};
+    }
+}
+
+$font-families: (
+    heading: "'Francois One', sans-serif",
+    main: "'Signika', sans-serif",
+);
+
+$ff-heading: -ff(heading);
+$ff-main: -ff(main);
+
+%type-jumbo {
+    font-family: $ff-heading;
+    font-size: sz.$font-jumbo;
+    color: c.$text-pri;
+}
+
+%type-title {
+    font-family: $ff-heading;
+    font-size: sz.$font-title;
+    color: c.$text-pri;
+}
+
+%type-header {
+    font-family: $ff-main;
+    font-size: sz.$font-pri;
+    font-weight: 600;
+    color: c.$text-pri;
+}
+
+%type-caption {
+    font-family: $ff-main;
+    font-size: sz.$font-pri;
+    letter-spacing: 0.1em;
+    font-weight: normal;
+    text-transform: uppercase;
+    color: c.$text-sec;
+}
+
+%type-pri {
+    font-family: $ff-main;
+    font-size: sz.$font-pri;
+    color: c.$text-pri;
+}
+
+%type-sec {
+    font-family: $ff-main;
+    font-size: sz.$font-sec;
+    color: c.$text-sec;
+}
+
+%type-button {
+    font-family: $ff-main;
+    font-size: sz.$font-pri;
+    letter-spacing: 0.05em;
+}

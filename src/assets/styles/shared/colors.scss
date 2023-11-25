@@ -1,0 +1,53 @@
+@function _full-var-name($name) {
+    @return --c-#{$name};
+}
+
+@function _tv($name) {
+    @return var(_full-var-name($name));
+}
+
+@mixin theme-vars($theme) {
+    @each $name, $value in $theme {
+        #{_full-var-name($name)}: #{$value};
+    }
+}
+
+$theme-light: (
+    accent: #69f0ae,
+    text-pri: rgba(#000, 0.9),
+    text-sec: rgba(#000, 0.65),
+    text-placeholder: rgba(#000, 0.4),
+    fg-solid: #212121,
+    bg-default: #f0f0f0,
+    bg-surface: #ffffff,
+    bg-field: rgba(#000, 0.05),
+    bg-checked: rgba(#000, 0.2),
+    border-soft: rgba(#000, 0.15),
+    opacity-disabled: 0.4
+);
+
+$theme-dark: (
+    accent: #00c853,
+    text-pri: rgba(#fff, 0.9),
+    text-sec: rgba(#fff, 0.65),
+    text-placeholder: rgba(#fff, 0.4),
+    fg-solid: #f0f0f0,
+    bg-default: #212121,
+    bg-surface: #000000,
+    bg-field: rgba(#fff, 0.05),
+    bg-checked: rgba(#fff, 0.1),
+    border-soft: rgba(#fff, 0.1),
+    opacity-disabled: 0.4
+);
+
+$accent: _tv(accent);
+$text-pri: _tv(text-pri);
+$text-sec: _tv(text-sec);
+$text-placeholder: _tv(text-placeholder);
+$fg-solid: _tv(fg-solid);
+$bg-default: _tv(bg-default);
+$bg-surface: _tv(bg-surface);
+$bg-field: _tv(bg-field);
+$bg-checked: _tv(bg-checked);
+$border-soft: _tv(border-soft);
+$opacity-disabled: _tv(opacity-disabled);
