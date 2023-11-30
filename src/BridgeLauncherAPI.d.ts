@@ -19,7 +19,7 @@ declare namespace Bridge
         labelNormalized: string;
     }
 
-    export interface AppEventArgs 
+    export interface AppEventArgs
     {
         packageName: string;
     }
@@ -48,56 +48,92 @@ declare namespace Bridge
     export type BridgeEventCode = StateUpdateEvents['code'];
 
     export type BridgeButtonVisibility = 'shown' | 'hidden';
-    export type BridgeTheme = 'auto' | 'dark' | 'light';
-    export type SystemBarAppearance = 'hidden' | 'light-fg' | 'dark-fg';
+    export type BridgeTheme = 'system' | 'dark' | 'light';
+    export type SystemBarAppearance = 'hide' | 'light-fg' | 'dark-fg';
+    export type SystemNightMode = 'no' | 'yes' | 'auto' | 'custom';
+    export type WindowInsets = [left: number, top: number, right: number, bottom: number];
+
+    // system info
+    function getAndroidAPILevel(): number;
+    function getLastErrorMessage(): string;
 
     // apps
-    function getInstalledApps(): InstalledAppInfo[];
-    function requestAppUninstall(packageName: string): void;
-    function launchApp(packageName: string): void;
+    function requestAppUninstall(packageName: string, showToastIfFailed: boolean = true): boolean;
+    function requestOpenAppInfo(packageName: string, showToastIfFailed: boolean = true): boolean;
+    function requestLaunchApp(packageName: string, showToastIfFailed: boolean = true): boolean;
 
-    // wallpaper offsets
+    // wallpaper
     function setWallpaperOffsetSteps(x: number, y: number): void;
     function setWallpaperOffsets(x: number, y: number): void;
-    
+    function sendWallpaperTap(x: number, y: number): void;
+    function requestChangeSystemWallpaper(showToastIfFailed: boolean = true): boolean;
+
     // bridge button
     function getBridgeButtonVisibility(): BridgeButtonVisibility;
-    function setBridgeButtonVisibility(state: BridgeButtonVisibility): void;
+    function setBridgeButtonVisibility(state: BridgeButtonVisibility, showToastIfFailed: boolean = true): boolean;
 
     // draw system wallpaper behind webview
     function getDrawSystemWallpaperBehindWebViewEnabled(): boolean;
-    function setDrawSystemWallpaperBehindWebViewEnabled(enable: boolean): void;
+    function setDrawSystemWallpaperBehindWebViewEnabled(enable: boolean, showToastIfFailed: boolean = true): boolean;
 
     // system theme
-    function getIsSystemInDarkTheme(): boolean;
-    function setIsSystemInDarkTheme(shouldBeInDarkTheme: boolean): void;
+    function getSystemNightMode(): SystemNightMode | 'error' | 'unknown';
+    function resolveIsSystemInDarkTheme(): boolean;
+    function setSystemNightMode(mode: SystemNightMode, showToastIfFailed: boolean = true): boolean;
 
     // Bridge theme
     function getBridgeTheme(): BridgeTheme;
-    function setBridgeTheme(theme: BridgeTheme): void;
+    function setBridgeTheme(theme: BridgeTheme, showToastIfFailed: boolean = true): boolean;
 
     // status bar
     function getStatusBarAppearance(): SystemBarAppearance;
-    function setStatusBarAppearance(appearance: SystemBarAppearance): void;
-    function getStatusBarHeight(): number;
+    function setStatusBarAppearance(appearance: SystemBarAppearance, showToastIfFailed: boolean = true): boolean;
 
     // navigation bar
     function getNavigationBarAppearance(): SystemBarAppearance;
-    function setNavigationBarAppearance(appearance: SystemBarAppearance): void;
-    function getNavigationBarHeight(): number;
+    function setNavigationBarAppearance(appearance: SystemBarAppearance, showToastIfFailed: boolean = true): boolean;
 
     // screen locking
     function getCanLockScreen(): boolean;
-    function requestLockScreen(quiet: boolean): boolean;
-    
+    function requestLockScreen(showToastIfFailed: boolean = true): boolean;
+
     // misc requests
-    function requestOpenBridgeSettings(): void;
-    function requestOpenDeveloperConsole(): void;
-    function requestExpandNotificationShade(): void;
-    function requestChangeSystemWallpaper(): void;
+    function requestOpenBridgeSettings(showToastIfFailed: boolean = true): boolean;
+    function requestOpenBridgeAppDrawer(showToastIfFailed: boolean = true): boolean;
+    function requestOpenDeveloperConsole(showToastIfFailed: boolean = true): boolean;
+    function requestExpandNotificationShade(showToastIfFailed: boolean = true): boolean;
 
     // toast
     function showToast(message: string, long: boolean = false): void;
+
+    // window insets and cutouts
+    function getStatusBarsWindowInsets(): WindowInsets;
+    function getStatusBarsIgnoringVisibilityWindowInsets(): WindowInsets;
+
+    function getNavigationBarsWindowInsets(): WindowInsets;
+    function getNavigationBarsIgnoringVisibilityWindowInsets(): WindowInsets;
+
+    function getCaptionBarWindowInsets(): WindowInsets;
+    function getCaptionBarIgnoringVisibilityWindowInsets(): WindowInsets;
+
+    function getSystemBarsWindowInsets(): WindowInsets;
+    function getSystemBarsIgnoringVisibilityWindowInsets(): WindowInsets;
+
+    function getImeWindowInsets(): WindowInsets;
+    function getImeAnimationSourceWindowInsets(): WindowInsets;
+    function getImeAnimationTargetWindowInsets(): WindowInsets;
+
+    function getTappableElementWindowInsets(): WindowInsets;
+    function getTappableElementIgnoringVisibilityWindowInsets(): WindowInsets;
+
+    function getSystemGesturesWindowInsets(): WindowInsets;
+    function getMandatorySystemGesturesWindowInsets(): WindowInsets;
+
+    function getDisplayCutoutWindowInsets(): WindowInsets;
+    function getWaterfallWindowInsets(): WindowInsets;
+
+    function getDisplayCutoutPath(): string | null;
+    function getDisplayShapePath(): string | null;
 }
 
 declare var onBridgeEvent: ((...[code, args]: Bridge.StateUpdateEvents) => void) | undefined;
