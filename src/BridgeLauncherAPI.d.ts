@@ -74,28 +74,28 @@ declare namespace Bridge
 
     // bridge button
     function getBridgeButtonVisibility(): BridgeButtonVisibility;
-    function setBridgeButtonVisibility(state: BridgeButtonVisibility, showToastIfFailed: boolean = true): boolean;
+    function requestSetBridgeButtonVisibility(state: BridgeButtonVisibility, showToastIfFailed: boolean = true): boolean;
 
     // draw system wallpaper behind webview
     function getDrawSystemWallpaperBehindWebViewEnabled(): boolean;
-    function setDrawSystemWallpaperBehindWebViewEnabled(enable: boolean, showToastIfFailed: boolean = true): boolean;
+    function requestSetDrawSystemWallpaperBehindWebViewEnabled(enable: boolean, showToastIfFailed: boolean = true): boolean;
 
     // system theme
     function getSystemNightMode(): SystemNightMode | 'error' | 'unknown';
     function resolveIsSystemInDarkTheme(): boolean;
-    function setSystemNightMode(mode: SystemNightMode, showToastIfFailed: boolean = true): boolean;
+    function requestSetSystemNightMode(mode: SystemNightMode, showToastIfFailed: boolean = true): boolean;
 
     // Bridge theme
     function getBridgeTheme(): BridgeTheme;
-    function setBridgeTheme(theme: BridgeTheme, showToastIfFailed: boolean = true): boolean;
+    function requestSetBridgeTheme(theme: BridgeTheme, showToastIfFailed: boolean = true): boolean;
 
     // status bar
     function getStatusBarAppearance(): SystemBarAppearance;
-    function setStatusBarAppearance(appearance: SystemBarAppearance, showToastIfFailed: boolean = true): boolean;
+    function requestSetStatusBarAppearance(appearance: SystemBarAppearance, showToastIfFailed: boolean = true): boolean;
 
     // navigation bar
     function getNavigationBarAppearance(): SystemBarAppearance;
-    function setNavigationBarAppearance(appearance: SystemBarAppearance, showToastIfFailed: boolean = true): boolean;
+    function requestSetNavigationBarAppearance(appearance: SystemBarAppearance, showToastIfFailed: boolean = true): boolean;
 
     // screen locking
     function getCanLockScreen(): boolean;
