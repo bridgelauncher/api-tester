@@ -12,19 +12,19 @@ function throwError()
 <template>
     <Card title="Actions">
         <main>
-            <ActionListItem @click="">
+            <ActionListItem @click="Bridge.requestOpenBridgeSettings()">
                 Open Bridge settings
             </ActionListItem>
-            <ActionListItem @click="">
+            <ActionListItem @click="Bridge.requestOpenDeveloperConsole()">
                 Open developer console
             </ActionListItem>
-            <ActionListItem @click="">
+            <ActionListItem @click="Bridge.requestExpandNotificationShade()">
                 Expand notification shade
             </ActionListItem>
-            <ActionListItem @click="">
+            <ActionListItem @click="Bridge.requestLockScreen()">
                 Lock screen
             </ActionListItem>
-            <ActionListItem @click="">
+            <ActionListItem @click="Bridge.requestChangeSystemWallpaper()">
                 Request change system wallpaper
             </ActionListItem>
         </main>

@@ -51,7 +51,11 @@ declare namespace Bridge
     export type BridgeTheme = 'system' | 'dark' | 'light';
     export type SystemBarAppearance = 'hide' | 'light-fg' | 'dark-fg';
     export type SystemNightMode = 'no' | 'yes' | 'auto' | 'custom';
-    export type WindowInsets = [left: number, top: number, right: number, bottom: number];
+    /** 
+     * A string containing 4 decimals in the following format: `left;top;right;bottom`  
+     * @example const [l, t, r, b] = Bridge.getWhateverWindowInsets().split(';')
+     */
+    export type WindowInsets = string;
 
     // system info
     function getAndroidAPILevel(): number;
@@ -107,6 +111,8 @@ declare namespace Bridge
     function showToast(message: string, long: boolean = false): void;
 
     // window insets and cutouts
+    function getWindowInsetsSeparator(): string;
+
     function getStatusBarsWindowInsets(): WindowInsets;
     function getStatusBarsIgnoringVisibilityWindowInsets(): WindowInsets;
 

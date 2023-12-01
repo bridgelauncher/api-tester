@@ -8,6 +8,7 @@ import App from './App.vue';
 
 const app = createApp(App);
 
+app.config.globalProperties.Bridge = Bridge;
 app.use(createPinia());
 app.use(VWave, { cancellationPeriod: 100 });
 
