@@ -34,10 +34,12 @@ function showToast()
             'height': px(bridgeStore.statusBarHeight),
         }"></div>
 
-        <HomeColumn />
-        <AppsColumn />
-        <MiscColumn />
-        <UpdatesColumn />
+        <div class="columns">
+            <HomeColumn />
+            <AppsColumn />
+            <MiscColumn />
+            <UpdatesColumn />
+        </div>
 
         <div class="system-bar-bg bot" :style="{
             'height': px(bridgeStore.navigationBarHeight),
@@ -52,25 +54,11 @@ function showToast()
 .bridge-tester-root {
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: start;
     overflow: auto;
     scroll-snap-type: x mandatory;
-    
+
     &.dev {
         background-color: #404040;
-    }
-
-    :deep(> .column) {
-        width: 100%;
-        flex-shrink: 0;
-        min-height: 100%;
-        padding: sz.$pad-double sz.$pad-half;
-        scroll-snap-align: center;
-        scroll-snap-stop: always;
-        max-width: math.div(1920px - 17px, 4);
-        backdrop-filter: blur(10px);
     }
 
     > .system-bar-bg {
@@ -87,5 +75,23 @@ function showToast()
             bottom: 0;
         }
     }
+
+    > .columns {
+        display: flex;
+        flex-direction: row;
+
+        :deep(> .column) {
+            width: 100%;
+            min-height: 100%;
+            flex-shrink: 0;
+            padding: sz.$pad-double sz.$pad-half;
+            scroll-snap-align: center;
+            scroll-snap-stop: always;
+            max-width: math.div(1920px - 17px, 4);
+            backdrop-filter: blur(10px);
+            // border: 2px dashed magenta;
+        }
+    }
+
 }
 </style>

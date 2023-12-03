@@ -1,39 +1,83 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
+interface InstalledAppInfo extends Bridge.InstalledAppInfo
+{
+    labelSimplified: string;
+}
+
+
 let uid = 0;
-function app(label: string, packageName: string): Bridge.InstalledAppInfo
+function app(label: string, packageName: string): InstalledAppInfo
 {
     return {
         uid: uid++,
-        label,
         packageName,
-        labelNormalized: normalizeSearchPhrase(label),
+        label,
+        labelSimplified: simplifyString(label),
     };
 }
 
-export function normalizeSearchPhrase(phrase: string)
+export function simplifyString(s: string)
 {
-    return phrase
+    return s
         .trim()
         .toLowerCase()
         .replace(/[^a-z0-9]/g, '');
 }
 
+export enum LoadingStatus
+{
+    Idle,
+    InProgress,
+    Error,
+}
+
+export enum WindowInsetSide { Left, Top, Right, Bottom }
+
+export function getInsetSide(insets: Bridge.WindowInsets, side: WindowInsetSide)
+{
+    return parseFloat(insets.split(Bridge.getWindowInsetsSeparator())[side]);
+}
+
 export const useBridgeStore = defineStore('Bridge', () => 
 {
-    const statusBarHeight = ref(24);
-    const navigationBarHeight = ref(48);
+    const systemBarsInsets = Bridge.getSystemBarsWindowInsets()
+    console.log('@useBridgeStore.getSystemBarsWindowInsets:', systemBarsInsets);
+    const statusBarHeight = ref(getInsetSide(systemBarsInsets, WindowInsetSide.Top));
+    const navigationBarHeight = ref(getInsetSide(systemBarsInsets, WindowInsetSide.Bottom));
 
-    const installedApps = ref<Bridge.InstalledAppInfo[]>([
-        app('App name 1', 'com.example.app1'),
-        app('Launchma', 'ask.you.launchma'),
-    ]);
+    const installedApps = ref<InstalledAppInfo[]>([]);
 
-    function reloadApps()
+    const loadAppsStatus = ref(LoadingStatus.Idle);
+    const loadAppsErrorMessage = ref('');
+
+    async function loadApps()
     {
+        if (loadAppsStatus.value === LoadingStatus.InProgress) return;
 
+        loadAppsStatus.value = LoadingStatus.InProgress;
+        loadAppsErrorMessage.value = '';
+
+        try
+        {
+            const resp = await fetch(Bridge.getAppsURL());
+            const apps = await resp.json() as Bridge.InstalledAppInfo[];
+            installedApps.value = apps.map<InstalledAppInfo>(a => ({
+                ...a,
+                labelSimplified: simplifyString(a.label),
+            }));
+            loadAppsStatus.value = LoadingStatus.Idle;
+        }
+        catch (err)
+        {
+            console.error(err);
+            loadAppsStatus.value = LoadingStatus.Error;
+            loadAppsErrorMessage.value = `${err}`;
+        }
     }
+
+    loadApps();
 
     function clearStateUpdateHistory()
     {
@@ -45,7 +89,7 @@ export const useBridgeStore = defineStore('Bridge', () =>
         navigationBarHeight,
 
         installedApps,
-        reloadApps,
+        reloadApps: loadApps,
 
         clearStateUpdateHistory,
     };

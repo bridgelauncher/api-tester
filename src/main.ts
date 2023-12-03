@@ -3,8 +3,11 @@ import '@/assets/styles/base.scss';
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
+import injectBridgeMockInDev from './mock/injectBridgeMockInDev';
 import VWave from 'v-wave';
 import App from './App.vue';
+
+injectBridgeMockInDev();
 
 const app = createApp(App);
 

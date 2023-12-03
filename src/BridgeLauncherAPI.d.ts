@@ -16,7 +16,6 @@ declare namespace Bridge
         uid: number;
         packageName: string;
         label: string;
-        labelNormalized: string;
     }
 
     export interface AppEventArgs
@@ -57,89 +56,98 @@ declare namespace Bridge
      */
     export type WindowInsets = string;
 
-    // system info
-    function getAndroidAPILevel(): number;
-    function getLastErrorMessage(): string;
+    export interface JSToAndroidAPI
+    {
+        // system
+        getAndroidAPILevel(): number;
+        getLastErrorMessage(): string;
 
-    // apps
-    function requestAppUninstall(packageName: string, showToastIfFailed: boolean = true): boolean;
-    function requestOpenAppInfo(packageName: string, showToastIfFailed: boolean = true): boolean;
-    function requestLaunchApp(packageName: string, showToastIfFailed: boolean = true): boolean;
+        // fetch
+        getProjectURL(): string;
+        getAppsURL(): string;
 
-    // wallpaper
-    function setWallpaperOffsetSteps(x: number, y: number): void;
-    function setWallpaperOffsets(x: number, y: number): void;
-    function sendWallpaperTap(x: number, y: number): void;
-    function requestChangeSystemWallpaper(showToastIfFailed: boolean = true): boolean;
+        // apps
+        requestAppUninstall(packageName: string, showToastIfFailed: boolean = true): boolean;
+        requestOpenAppInfo(packageName: string, showToastIfFailed: boolean = true): boolean;
+        requestLaunchApp(packageName: string, showToastIfFailed: boolean = true): boolean;
 
-    // bridge button
-    function getBridgeButtonVisibility(): BridgeButtonVisibility;
-    function requestSetBridgeButtonVisibility(state: BridgeButtonVisibility, showToastIfFailed: boolean = true): boolean;
+        // wallpaper
+        setWallpaperOffsetSteps(x: number, y: number): void;
+        setWallpaperOffsets(x: number, y: number): void;
+        sendWallpaperTap(x: number, y: number): void;
+        requestChangeSystemWallpaper(showToastIfFailed: boolean = true): boolean;
 
-    // draw system wallpaper behind webview
-    function getDrawSystemWallpaperBehindWebViewEnabled(): boolean;
-    function requestSetDrawSystemWallpaperBehindWebViewEnabled(enable: boolean, showToastIfFailed: boolean = true): boolean;
+        // bridge button
+        getBridgeButtonVisibility(): BridgeButtonVisibility;
+        requestSetBridgeButtonVisibility(state: BridgeButtonVisibility, showToastIfFailed: boolean = true): boolean;
 
-    // system theme
-    function getSystemNightMode(): SystemNightMode | 'error' | 'unknown';
-    function resolveIsSystemInDarkTheme(): boolean;
-    function requestSetSystemNightMode(mode: SystemNightMode, showToastIfFailed: boolean = true): boolean;
+        // draw system wallpaper behind webview
+        getDrawSystemWallpaperBehindWebViewEnabled(): boolean;
+        requestSetDrawSystemWallpaperBehindWebViewEnabled(enable: boolean, showToastIfFailed: boolean = true): boolean;
 
-    // Bridge theme
-    function getBridgeTheme(): BridgeTheme;
-    function requestSetBridgeTheme(theme: BridgeTheme, showToastIfFailed: boolean = true): boolean;
+        // system theme
+        getSystemNightMode(): SystemNightMode | 'error' | 'unknown';
+        resolveIsSystemInDarkTheme(): boolean;
+        requestSetSystemNightMode(mode: SystemNightMode, showToastIfFailed: boolean = true): boolean;
 
-    // status bar
-    function getStatusBarAppearance(): SystemBarAppearance;
-    function requestSetStatusBarAppearance(appearance: SystemBarAppearance, showToastIfFailed: boolean = true): boolean;
+        // Bridge theme
+        getBridgeTheme(): BridgeTheme;
+        requestSetBridgeTheme(theme: BridgeTheme, showToastIfFailed: boolean = true): boolean;
 
-    // navigation bar
-    function getNavigationBarAppearance(): SystemBarAppearance;
-    function requestSetNavigationBarAppearance(appearance: SystemBarAppearance, showToastIfFailed: boolean = true): boolean;
+        // status bar
+        getStatusBarAppearance(): SystemBarAppearance;
+        requestSetStatusBarAppearance(appearance: SystemBarAppearance, showToastIfFailed: boolean = true): boolean;
 
-    // screen locking
-    function getCanLockScreen(): boolean;
-    function requestLockScreen(showToastIfFailed: boolean = true): boolean;
+        // navigation bar
+        getNavigationBarAppearance(): SystemBarAppearance;
+        requestSetNavigationBarAppearance(appearance: SystemBarAppearance, showToastIfFailed: boolean = true): boolean;
 
-    // misc requests
-    function requestOpenBridgeSettings(showToastIfFailed: boolean = true): boolean;
-    function requestOpenBridgeAppDrawer(showToastIfFailed: boolean = true): boolean;
-    function requestOpenDeveloperConsole(showToastIfFailed: boolean = true): boolean;
-    function requestExpandNotificationShade(showToastIfFailed: boolean = true): boolean;
+        // screen locking
+        getCanLockScreen(): boolean;
+        requestLockScreen(showToastIfFailed: boolean = true): boolean;
 
-    // toast
-    function showToast(message: string, long: boolean = false): void;
+        // misc requests
+        requestOpenBridgeSettings(showToastIfFailed: boolean = true): boolean;
+        requestOpenBridgeAppDrawer(showToastIfFailed: boolean = true): boolean;
+        requestOpenDeveloperConsole(showToastIfFailed: boolean = true): boolean;
+        requestExpandNotificationShade(showToastIfFailed: boolean = true): boolean;
 
-    // window insets and cutouts
-    function getWindowInsetsSeparator(): string;
+        // toast
+        showToast(message: string, long: boolean = false): void;
 
-    function getStatusBarsWindowInsets(): WindowInsets;
-    function getStatusBarsIgnoringVisibilityWindowInsets(): WindowInsets;
+        // window insets and cutouts
+        getWindowInsetsSeparator(): string;
 
-    function getNavigationBarsWindowInsets(): WindowInsets;
-    function getNavigationBarsIgnoringVisibilityWindowInsets(): WindowInsets;
+        getStatusBarsWindowInsets(): WindowInsets;
+        getStatusBarsIgnoringVisibilityWindowInsets(): WindowInsets;
 
-    function getCaptionBarWindowInsets(): WindowInsets;
-    function getCaptionBarIgnoringVisibilityWindowInsets(): WindowInsets;
+        getNavigationBarsWindowInsets(): WindowInsets;
+        getNavigationBarsIgnoringVisibilityWindowInsets(): WindowInsets;
 
-    function getSystemBarsWindowInsets(): WindowInsets;
-    function getSystemBarsIgnoringVisibilityWindowInsets(): WindowInsets;
+        getCaptionBarWindowInsets(): WindowInsets;
+        getCaptionBarIgnoringVisibilityWindowInsets(): WindowInsets;
 
-    function getImeWindowInsets(): WindowInsets;
-    function getImeAnimationSourceWindowInsets(): WindowInsets;
-    function getImeAnimationTargetWindowInsets(): WindowInsets;
+        getSystemBarsWindowInsets(): WindowInsets;
+        getSystemBarsIgnoringVisibilityWindowInsets(): WindowInsets;
 
-    function getTappableElementWindowInsets(): WindowInsets;
-    function getTappableElementIgnoringVisibilityWindowInsets(): WindowInsets;
+        getImeWindowInsets(): WindowInsets;
+        getImeAnimationSourceWindowInsets(): WindowInsets;
+        getImeAnimationTargetWindowInsets(): WindowInsets;
 
-    function getSystemGesturesWindowInsets(): WindowInsets;
-    function getMandatorySystemGesturesWindowInsets(): WindowInsets;
+        getTappableElementWindowInsets(): WindowInsets;
+        getTappableElementIgnoringVisibilityWindowInsets(): WindowInsets;
 
-    function getDisplayCutoutWindowInsets(): WindowInsets;
-    function getWaterfallWindowInsets(): WindowInsets;
+        getSystemGesturesWindowInsets(): WindowInsets;
+        getMandatorySystemGesturesWindowInsets(): WindowInsets;
 
-    function getDisplayCutoutPath(): string | null;
-    function getDisplayShapePath(): string | null;
+        getDisplayCutoutWindowInsets(): WindowInsets;
+        getWaterfallWindowInsets(): WindowInsets;
+
+        getDisplayCutoutPath(): string | null;
+        getDisplayShapePath(): string | null;
+    }
+
 }
 
+declare var Bridge: Bridge.JSToAndroidAPI;
 declare var onBridgeEvent: ((...[code, args]: Bridge.StateUpdateEvents) => void) | undefined;

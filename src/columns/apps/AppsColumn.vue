@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { normalizeSearchPhrase, useBridgeStore } from '@/stores/useBridgeStore';
+import { simplifyString, useBridgeStore } from '@/stores/useBridgeStore';
 import Card from '@/components/Card.vue';
 import AppListItem from './AppListItem.vue';
 import { mdiClose, mdiMagnify, mdiRefresh, mdiSelectSearch } from '@mdi/js';
@@ -14,10 +14,10 @@ const searchPhrase = ref('');
 
 const filteredApps = computed(() =>
 {
-    const searchPhraseNorm = normalizeSearchPhrase(searchPhrase.value);
+    const searchPhraseSimplified = simplifyString(searchPhrase.value);
     const searchPackageName = searchPhrase.value.trim().toLowerCase();
     return bridgeStore.installedApps.filter(a =>
-        a.labelNormalized.includes(searchPhraseNorm)
+        a.labelSimplified.includes(searchPhraseSimplified)
         || a.packageName.includes(searchPackageName)
     );
 });
