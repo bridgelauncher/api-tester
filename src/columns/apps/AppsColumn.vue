@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { LoadingStatus, simplifyString, useBridgeStore } from '@/stores/useBridgeStore';
+import { mdiClose, mdiMagnify, mdiRefresh, mdiSelectSearch } from '@mdi/js';
+import { computed, ref } from 'vue';
+import { useAppsStore, RequestStatus } from '@/stores/useAppsStore';
+import { simplifyString } from '@/utils/misc-utils';
 import Card from '@/components/Card.vue';
 import AppListItem from './AppListItem.vue';
-import { mdiClose, mdiMagnify, mdiRefresh, mdiSelectSearch } from '@mdi/js';
 import SvgIcon from '@/components/SvgIcon.vue';
 import IconButton from '@/components/buttons/IconButton.vue';
-import { computed, ref } from 'vue';
 import Tip from '@/components/Tip.vue';
 
-const bridgeStore = useBridgeStore();
+const appsStore = useAppsStore()
 
 const searchPhrase = ref('');
 
@@ -16,7 +17,7 @@ const filteredApps = computed(() =>
 {
     const searchPhraseSimplified = simplifyString(searchPhrase.value);
     const searchPackageName = searchPhrase.value.trim().toLowerCase();
-    return bridgeStore.installedApps.filter(a =>
+    return appsStore.apps.filter(a =>
         a.labelSimplified.includes(searchPhraseSimplified)
         || a.packageName.includes(searchPackageName)
     );
@@ -31,9 +32,9 @@ const filteredApps = computed(() =>
             <template #actions>
                 <IconButton
                     :icon="mdiRefresh"
-                    :disabled="bridgeStore.loadAppsStatus === LoadingStatus.InProgress"
-                    :flavor="bridgeStore.loadAppsStatus === LoadingStatus.Error ? 'error' : undefined"
-                    @click="bridgeStore.loadApps()" />
+                    :disabled="appsStore.requestStatus === RequestStatus.InProgress"
+                    :flavor="appsStore.requestStatus === RequestStatus.Error ? 'error' : undefined"
+                    @click="appsStore.requestAppsAsync()" />
             </template>
 
             <div class="searchbar">

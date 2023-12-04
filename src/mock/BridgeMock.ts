@@ -39,43 +39,58 @@ export default class BridgeMock implements Bridge.JSToAndroidAPI
 
     requestAppUninstall(packageName: string, showToastIfFailed?: boolean): boolean
     {
-        alert(`Requested uninstall for ${packageName}`);
+        alert(`[BridgeMock] Requested uninstall for ${packageName}`);
         return true;
     }
 
     requestOpenAppInfo(packageName: string, showToastIfFailed?: boolean): boolean
     {
-        alert(`Requested open app info for ${packageName}`);
+        alert(`[BridgeMock] Requested open app info for ${packageName}`);
         return true;
     }
 
     requestLaunchApp(packageName: string, showToastIfFailed?: boolean): boolean
     {
-        alert(`Requested launch ${packageName}`);
+        alert(`[BridgeMock] Requested launch ${packageName}`);
         return true;
     }
 
 
     // wallpaper
 
+    private _wallpaperOffsetStepsX: number = 1;
+    private _wallpaperOffsetStepsY: number = 1;
+    private _wallpaperOffsetX: number = 0;
+    private _wallpaperOffsetY: number = 0;
+
+    private _padNum(n: number) 
+    {
+        return n.toFixed(4).padEnd(6);
+    }
+
     setWallpaperOffsetSteps(x: number, y: number): void
     {
-        throw new Error("Method not implemented.");
+        this._wallpaperOffsetStepsX = x;
+        this._wallpaperOffsetStepsY = y;
+        console.log(`[BridgeMock] setWallpaperOffsetSteps: x = ${this._padNum(x)} y = ${y} (pages: x = ${Math.round(1 / x) - 1}, y = ${Math.round(1 / y) - 1})`);
     }
 
     setWallpaperOffsets(x: number, y: number): void
     {
-        throw new Error("Method not implemented.");
+        this._wallpaperOffsetX = x;
+        this._wallpaperOffsetY = y;
+        console.log(`[BridgeMock] setWallpaperOffsets: x = ${this._padNum(x)} y = ${this._padNum(y)} (pages: x = ${this._padNum(x / this._wallpaperOffsetStepsX)} y = ${this._padNum(y / this._wallpaperOffsetStepsY)})`);
     }
 
     sendWallpaperTap(x: number, y: number): void
     {
-        throw new Error("Method not implemented.");
+        console.log(`[BridgeMock] sendWallpaperTap: x = ${x}, y = ${y}`);
     }
 
     requestChangeSystemWallpaper(showToastIfFailed?: boolean): boolean
     {
-        throw new Error("Method not implemented.");
+        alert(`[BridgeMock] Requested change system wallpaper.`);
+        return true;
     }
 
 

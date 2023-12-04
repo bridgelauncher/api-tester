@@ -80,4 +80,4 @@ const navigationBarAppearance = ref(SystemBarAppearanceOptions.Hidden);
     </Card>
 </template>
 
-<style scoped lang="scss"></style>@/components/fields/option-strip-field@/components/fields/fields
+<style scoped lang="scss"></style>

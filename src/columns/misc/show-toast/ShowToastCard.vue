@@ -13,10 +13,10 @@ const toastText = ref('Hello there!');
         <main>
             <InputField v-model="toastText" placeholder="Enter toast text..." />
             <div class="row">
-                <TextButton>
+                <TextButton @click="Bridge.showToast(toastText, false)">
                     Show short
                 </TextButton>
-                <TextButton>
+                <TextButton @click="Bridge.showToast(toastText, true)">
                     Show long
                 </TextButton>
             </div>

@@ -5,21 +5,10 @@ import Card from '@/components/Card.vue';
 import CheckboxField from '@/components/fields/CheckboxField.vue';
 import NumberField from '@/components/fields/NumberField.vue';
 import SliderField from '@/components/fields/SliderField.vue';
+import { useBridgeStore } from '@/stores/useBridgeStore';
+import { useWallpaperOffsetStore } from '@/stores/useWallpaperOffsetStore';
 
-
-const usePageScroll = ref(false);
-const xPages = ref(3);
-const yPages = ref(3);
-const xOffsetSteps = computed({
-    get: () => 1 / xPages.value,
-    set: o => xPages.value = Math.round(1 / o),
-});
-const yOffsetSteps = computed({
-    get: () => 1 / yPages.value,
-    set: o => yPages.value = Math.round(1 / o),
-});
-const xOffset = ref(0.5);
-const yOffset = ref(0.5);
+const store = useWallpaperOffsetStore();
 
 </script>
 
@@ -28,38 +17,38 @@ const yOffset = ref(0.5);
         <main class="cbx-container">
             <CheckboxField
                 label="Use page scroll"
-                v-model="usePageScroll" />
+                v-model="store.usePageScroll" />
         </main>
         <div class="separator"></div>
         <main class="fields">
             <label class="type-caption">Pages</label>
             <NumberField
                 label="X"
-                v-model="xPages"
-                :disabled="usePageScroll"
+                v-model="store.pagesX"
+                :disabled="store.usePageScroll"
                 :min="1"
-                :computed-value="f2(xOffsetSteps)" />
+                :computed-value="f2(store.stepsX)" />
             <NumberField
                 label="Y"
-                v-model="yPages"
+                v-model="store.pagesY"
                 :min="1"
-                :computed-value="f2(yOffsetSteps)" />
+                :computed-value="f2(store.stepsY)" />
         </main>
         <div class="separator"></div>
         <main class="fields">
             <label class="type-caption">Offsets</label>
             <SliderField
                 label="X"
-                v-model="xOffset"
+                v-model="store.manualOffsetX"
                 :min="0"
                 :max="1"
-                :disabled="usePageScroll" />
+                :disabled="store.usePageScroll" />
             <SliderField
                 label="Y"
-                v-model="yOffset"
+                v-model="store.manualOffsetY"
                 :min="0"
                 :max="1"
-                :disabled="usePageScroll" />
+                :disabled="store.usePageScroll" />
         </main>
     </Card>
 </template>

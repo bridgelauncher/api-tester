@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { InstalledApp } from '@/stores/useBridgeStore';
+import type { InstalledAppInfo } from '@/stores/useAppsStore';
 
 const props = defineProps<{
-    app: InstalledApp;
+    app: InstalledAppInfo;
 }>();
 
 </script>

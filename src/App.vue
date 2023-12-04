@@ -1,23 +1,39 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useBridgeStore } from './stores/useBridgeStore';
+import { useWallpaperOffsetStore } from '@/stores/useWallpaperOffsetStore';
+import { useWindowInsetsStore } from '@/stores/useWindowInsetsStore';
+import { ref, watchEffect } from 'vue';
+import { px } from './utils/el-utils';
+import { useElementSize, useScroll } from '@vueuse/core';
 import HomeColumn from './columns/home/HomeColumn.vue';
 import AppsColumn from './columns/apps/AppsColumn.vue';
 import MiscColumn from './columns/misc/MiscColumn.vue';
-import UpdatesColumn from './columns/updates/UpdatesColumn.vue';
-import { px } from './utils/el-utils';
-
-const bridgeStore = useBridgeStore();
+import EventHistoryColumn from './columns/event-history/EventHistoryColumn.vue';
 
 const envIsDev = import.meta.env.DEV;
 
-const toastText = ref('Testing 123');
-const toastLong = ref(false);
+const insets = useWindowInsetsStore();
+const wallpaperOffsets = useWallpaperOffsetStore();
 
-function showToast()
+
+const columnsRef = ref<HTMLElement>();
+const columnsSize = useElementSize(columnsRef);
+
+const scrollingRef = ref<HTMLElement>();
+const scrollingSize = useElementSize(scrollingRef);
+const scrollState = useScroll(scrollingRef);
+
+watchEffect(() =>
 {
-    Bridge.showToast(toastText.value, toastLong.value);
-}
+    const maxOffsetX = columnsSize.width.value - scrollingSize.width.value;
+    const maxOffsetY = columnsSize.height.value - scrollingSize.height.value;
+    const sx = scrollState.x.value;
+    const sy = scrollState.y.value;
+    const x = maxOffsetX === 0 ? 0 : sx / maxOffsetX;
+    const y = maxOffsetY === 0 ? 0 : sy / maxOffsetY;
+
+    wallpaperOffsets.pageScrollOffsetX = x;
+    wallpaperOffsets.pageScrollOffsetY = y;
+});
 
 </script>
 
@@ -26,23 +42,24 @@ function showToast()
         class="bridge-tester-root"
         :class="{ 'dev': envIsDev }"
         :style="{
-            'padding-top': px(bridgeStore.statusBarHeight),
-            'padding-bottom': px(bridgeStore.navigationBarHeight),
-        }">
+            'padding-top': px(insets.statusBarHeight),
+            'padding-bottom': px(insets.navigationBarHeight),
+        }"
+        ref="scrollingRef">
 
         <div class="system-bar-bg top" :style="{
-            'height': px(bridgeStore.statusBarHeight),
+            'height': px(insets.statusBarHeight),
         }"></div>
 
-        <div class="columns">
+        <div class="columns" ref="columnsRef">
             <HomeColumn />
             <AppsColumn />
             <MiscColumn />
-            <UpdatesColumn />
+            <EventHistoryColumn />
         </div>
 
         <div class="system-bar-bg bot" :style="{
-            'height': px(bridgeStore.navigationBarHeight),
+            'height': px(insets.navigationBarHeight),
         }"></div>
 
     </div>
@@ -79,9 +96,12 @@ function showToast()
     > .columns {
         display: flex;
         flex-direction: row;
+        min-height: 100%;
+        min-width: 100%;
+        width: fit-content;
 
         :deep(> .column) {
-            width: 100%;
+            width: 100vw;
             min-height: 100%;
             flex-shrink: 0;
             padding: sz.$pad-double sz.$pad-half;
@@ -94,3 +114,4 @@ function showToast()
 
 }
 </style>
+./stores/useWindowInsetsStore
