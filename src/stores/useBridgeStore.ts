@@ -49,7 +49,7 @@ export const useBridgeStore = defineStore('Bridge', () =>
 
     const installedApps = ref<InstalledAppInfo[]>([]);
 
-    const loadAppsStatus = ref(LoadingStatus.Idle);
+    const loadAppsStatus = ref(LoadingStatus.Error);
     const loadAppsErrorMessage = ref('');
 
     async function loadApps()
@@ -89,7 +89,9 @@ export const useBridgeStore = defineStore('Bridge', () =>
         navigationBarHeight,
 
         installedApps,
-        reloadApps: loadApps,
+        loadApps,
+        loadAppsStatus,
+        loadAppsErrorMessage,
 
         clearStateUpdateHistory,
     };

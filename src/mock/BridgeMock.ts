@@ -39,17 +39,20 @@ export default class BridgeMock implements Bridge.JSToAndroidAPI
 
     requestAppUninstall(packageName: string, showToastIfFailed?: boolean): boolean
     {
-        throw new Error("Method not implemented.");
+        alert(`Requested uninstall for ${packageName}`);
+        return true;
     }
 
     requestOpenAppInfo(packageName: string, showToastIfFailed?: boolean): boolean
     {
-        throw new Error("Method not implemented.");
+        alert(`Requested open app info for ${packageName}`);
+        return true;
     }
 
     requestLaunchApp(packageName: string, showToastIfFailed?: boolean): boolean
     {
-        throw new Error("Method not implemented.");
+        alert(`Requested launch ${packageName}`);
+        return true;
     }
 
 

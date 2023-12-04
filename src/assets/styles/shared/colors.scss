@@ -14,6 +14,9 @@
 
 $theme-light: (
     accent: #69f0ae,
+    accent-error: #C81C1C,
+    accent-warning: #C88D1C,
+    accent-info: #1A4FB6,
     text-pri: rgba(#000, 0.9),
     text-sec: rgba(#000, 0.65),
     text-placeholder: rgba(#000, 0.4),
@@ -28,6 +31,9 @@ $theme-light: (
 
 $theme-dark: (
     accent: #00c853,
+    accent-error: #E58181,
+    accent-warning: #EFC779,
+    accent-info: #729BEC,
     text-pri: rgba(#fff, 0.9),
     text-sec: rgba(#fff, 0.65),
     text-placeholder: rgba(#fff, 0.35),
@@ -41,6 +47,9 @@ $theme-dark: (
 );
 
 $accent: _tv(accent);
+$accent-error: _tv(accent-error);
+$accent-warning: _tv(accent-warning);
+$accent-info: _tv(accent-info);
 $text-pri: _tv(text-pri);
 $text-sec: _tv(text-sec);
 $text-placeholder: _tv(text-placeholder);

@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import IconButton from '@/components/buttons/IconButton.vue';
+import type { MaybeRefOrGetter } from 'vue';
+import { toValue } from 'vue';
 
 
 const props = defineProps<{
     title: string,
-    actions?: { icon: string, onClick: () => void; }[];
+    actions?: {
+        icon: MaybeRefOrGetter<string>,
+        disabled?: MaybeRefOrGetter<boolean>,
+        onClick: () => void;
+    }[];
 }>();
 
 </script>
@@ -16,9 +22,7 @@ const props = defineProps<{
                 {{ title }}
             </div>
             <div class="actions">
-                <IconButton v-for="action in actions"
-                    :icon="action.icon"
-                    @click="action.onClick" />
+                <slot name="actions"></slot>
             </div>
         </header>
         <div class="separator"></div>

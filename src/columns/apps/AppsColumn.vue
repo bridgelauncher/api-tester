@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { simplifyString, useBridgeStore } from '@/stores/useBridgeStore';
+import { LoadingStatus, simplifyString, useBridgeStore } from '@/stores/useBridgeStore';
 import Card from '@/components/Card.vue';
 import AppListItem from './AppListItem.vue';
 import { mdiClose, mdiMagnify, mdiRefresh, mdiSelectSearch } from '@mdi/js';
@@ -26,11 +26,16 @@ const filteredApps = computed(() =>
 
 <template>
     <div class="column">
-        <Card title="Apps"
-            :actions="[{
-                icon: mdiRefresh,
-                onClick: () => bridgeStore.reloadApps(),
-            }]">
+        <Card title="Apps">
+
+            <template #actions>
+                <IconButton
+                    :icon="mdiRefresh"
+                    :disabled="bridgeStore.loadAppsStatus === LoadingStatus.InProgress"
+                    :flavor="bridgeStore.loadAppsStatus === LoadingStatus.Error ? 'error' : undefined"
+                    @click="bridgeStore.loadApps()" />
+            </template>
+
             <div class="searchbar">
                 <SvgIcon :path="mdiMagnify" />
                 <input
@@ -47,7 +52,8 @@ const filteredApps = computed(() =>
                 <template v-if="filteredApps.length > 0">
                     <AppListItem
                         v-for="app in filteredApps"
-                        :app="app" />
+                        :app="app"
+                        @click="Bridge.requestLaunchApp(app.packageName)" />
                 </template>
                 <template v-else>
                     <Tip :icon="mdiSelectSearch">

@@ -88,7 +88,6 @@ function showToast()
             scroll-snap-align: center;
             scroll-snap-stop: always;
             max-width: math.div(1920px - 17px, 4);
-            backdrop-filter: blur(10px);
             // border: 2px dashed magenta;
         }
     }

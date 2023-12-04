@@ -9,11 +9,18 @@ const bridgeStore = useBridgeStore();
 
 <template>
     <div class="column">
-        <Card title="State updates"
-            :actions="[{ icon: mdiNuke, onClick: () => bridgeStore.clearStateUpdateHistory() }]">
+        <Card title="State updates">
+
+            <template #actions>
+                <IconButton
+                :icon="mdiNuke"
+                @click="bridgeStore.clearStateUpdateHistory()" />
+            </template>
+
             <main>
 
             </main>
+            
         </Card>
     </div>
 </template>
