@@ -1,11 +1,10 @@
 <script setup lang="ts" generic="T">
-import type { OptionStripOption } from './option-strip-field';
 
 const model = defineModel<T>({ required: true });
 
 const props = defineProps<{
     label?: string;
-    options: OptionStripOption<T>[];
+    options: [label: string, value: T][];
 }>();
 
 </script>
@@ -14,12 +13,13 @@ const props = defineProps<{
     <div class="option-strip field">
         <label v-if="label">{{ label }}</label>
         <div class="strip">
-            <div v-for="option in options"
+            <div v-for="[label, value] in options"
                 class="option"
                 :class="{
-                    'selected': option.value === model
+                    'selected': value === model
                 }"
-                @click="model = option.value">{{ option.label }}</div>
+                @click="model = value"
+                v-wave>{{ label }}</div>
         </div>
     </div>
 </template>

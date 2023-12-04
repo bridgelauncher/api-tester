@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
 import { f2 } from '@/utils/format-utils';
+import { useWallpaperOffsetStore } from '@/stores/useWallpaperOffsetStore';
 import Card from '@/components/Card.vue';
 import CheckboxField from '@/components/fields/CheckboxField.vue';
 import NumberField from '@/components/fields/NumberField.vue';
 import SliderField from '@/components/fields/SliderField.vue';
-import { useBridgeStore } from '@/stores/useBridgeStore';
-import { useWallpaperOffsetStore } from '@/stores/useWallpaperOffsetStore';
 
 const store = useWallpaperOffsetStore();
 

@@ -1,32 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { options } from '@/components/fields/fields';
+import { useTogglesStore } from '@/stores/useTogglesStore';
 import Card from '@/components/Card.vue';
 import OptionStripField from '@/components/fields/OptionStripField.vue';
-import { opt } from '@/components/fields/fields';
 
-
-const bridgeButtonShown = ref(false);
-const drawSystemWallpaperBehindWebView = ref(false);
-
-enum SystemThemeOptions
-{
-    Auto,
-    Light,
-    Dark,
-}
-
-const systemTheme = ref(SystemThemeOptions.Auto);
-
-
-enum SystemBarAppearanceOptions
-{
-    Hidden,
-    LightIcons,
-    DarkIcons,
-}
-
-const statusBarAppearance = ref(SystemBarAppearanceOptions.Hidden);
-const navigationBarAppearance = ref(SystemBarAppearanceOptions.Hidden);
+const toggles = useTogglesStore();
 
 </script>
 
@@ -35,46 +14,56 @@ const navigationBarAppearance = ref(SystemBarAppearanceOptions.Hidden);
         <main>
             <OptionStripField
                 label="Bridge button"
-                v-model="bridgeButtonShown"
-                :options="[
-                    opt('Hide', false),
-                    opt('Show', true),
-                ]" />
+                v-model="toggles.bridgeButtonVisibility"
+                :options="options<Bridge.BridgeButtonVisibility>(
+                    ['Hidden', 'hidden'],
+                    ['Shown', 'shown'],
+                )" />
 
             <OptionStripField
                 label="Draw system wallpaper behind WebView"
-                v-model="drawSystemWallpaperBehindWebView"
-                :options="[
-                    opt('Disabled', false),
-                    opt('Enabled', true),
-                ]" />
+                v-model="toggles.drawSystemWallpaperBehindWebView"
+                :options="options<boolean>(
+                    ['Disabled', false],
+                    ['Enabled', true],
+                )" />
 
             <OptionStripField
-                label="System theme"
-                v-model="systemTheme"
-                :options="[
-                    opt('Auto', SystemThemeOptions.Auto),
-                    opt('Light', SystemThemeOptions.Light),
-                    opt('Dark', SystemThemeOptions.Dark),
-                ]" />
+                label="System night mode"
+                v-model="toggles.systemNightMode"
+                :options="options<Bridge.SystemNightMode>(
+                    ['Auto', 'auto'],
+                    ['Custom', 'custom'],
+                    ['Light', 'no'],
+                    ['Dark', 'yes'],
+                )" />
+
+            <OptionStripField
+                label="Bridge theme"
+                v-model="toggles.bridgeTheme"
+                :options="options<Bridge.BridgeTheme>(
+                    ['System', 'system'],
+                    ['Light', 'light'],
+                    ['Dark', 'dark'],
+                )" />
 
             <OptionStripField
                 label="Status bar"
-                v-model="statusBarAppearance"
-                :options="[
-                    opt('Hide', SystemBarAppearanceOptions.Hidden),
-                    opt('Light FG', SystemBarAppearanceOptions.LightIcons),
-                    opt('Dark FG', SystemBarAppearanceOptions.DarkIcons),
-                ]" />
+                v-model="toggles.statusBarAppearance"
+                :options="options<Bridge.SystemBarAppearance>(
+                    ['Hide', 'hide'],
+                    ['Light FG', 'light-fg'],
+                    ['Dark FG', 'dark-fg'],
+                )" />
 
             <OptionStripField
                 label="Navigation bar"
-                v-model="navigationBarAppearance"
-                :options="[
-                    opt('Hide', SystemBarAppearanceOptions.Hidden),
-                    opt('Light FG', SystemBarAppearanceOptions.LightIcons),
-                    opt('Dark FG', SystemBarAppearanceOptions.DarkIcons),
-                ]" />
+                v-model="toggles.navigationBarAppearance"
+                :options="options(
+                    ['Hide', 'hide'],
+                    ['Light FG', 'light-fg'],
+                    ['Dark FG', 'dark-fg'],
+                )" />
 
         </main>
     </Card>

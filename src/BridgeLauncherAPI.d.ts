@@ -50,6 +50,7 @@ declare namespace Bridge
     export type BridgeTheme = 'system' | 'dark' | 'light';
     export type SystemBarAppearance = 'hide' | 'light-fg' | 'dark-fg';
     export type SystemNightMode = 'no' | 'yes' | 'auto' | 'custom';
+    export type SystemNightModeOrError = SystemNightMode | 'error' | 'unknown';
     /** 
      * A string containing 4 decimals in the following format: `left;top;right;bottom`  
      * @example const [l, t, r, b] = Bridge.getWhateverWindowInsets().split(';')
@@ -60,7 +61,7 @@ declare namespace Bridge
     {
         // system
         getAndroidAPILevel(): number;
-        getLastErrorMessage(): string;
+        getLastErrorMessage(): string | null;
 
         // fetch
         getProjectURL(): string;
@@ -86,7 +87,7 @@ declare namespace Bridge
         requestSetDrawSystemWallpaperBehindWebViewEnabled(enable: boolean, showToastIfFailed: boolean = true): boolean;
 
         // system theme
-        getSystemNightMode(): SystemNightMode | 'error' | 'unknown';
+        getSystemNightMode(): SystemNightModeOrError;
         resolveIsSystemInDarkTheme(): boolean;
         requestSetSystemNightMode(mode: SystemNightMode, showToastIfFailed: boolean = true): boolean;
 

@@ -45,7 +45,8 @@ watchEffect(() =>
             'padding-top': px(insets.statusBarHeight),
             'padding-bottom': px(insets.navigationBarHeight),
         }"
-        ref="scrollingRef">
+        ref="scrollingRef"
+        @click="Bridge.sendWallpaperTap($event.clientX, $event.clientY)">
 
         <div class="system-bar-bg top" :style="{
             'height': px(insets.statusBarHeight),

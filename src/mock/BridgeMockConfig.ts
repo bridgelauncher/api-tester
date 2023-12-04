@@ -1,7 +1,6 @@
 export function createDefaultBridgeMockConfig()
 {
     return {
-
         // system
         apiLevel: 34,
 
@@ -10,14 +9,34 @@ export function createDefaultBridgeMockConfig()
         appsUrl: '/mock/apps.json',
         makeGetDefaultIconUrl: (packageName: string) => `/mock/icons/default/${packageName}.png`,
 
-        // system bars
-        statusBarHeight: 24,
-        statusBarAppearance: <Bridge.SystemBarAppearance>'hide',
-        navigtionBarHeight: 48,
-        navigationBarAppearance: <Bridge.SystemBarAppearance>'hide',
+        // wallpaper
+        wallpaperEventLogging: true,
 
-        // window insets
+        // Bridge button
+        initialBridgeButtonVisibility: <Bridge.BridgeButtonVisibility>'hidden',
+
+        // draw system wallpaper behind web view
+        initialDrawSystemWallpaperBehindWebViewEnabled: true,
+
+        // system night mode
+        initialSystemNightMode: <Bridge.SystemNightMode>'auto',
+        
+        // Bridge theme
+        initialBridgeTheme: <Bridge.BridgeTheme>'system',
+
+        // screen locking 
+        initialCanLockScreen: true,
+
+        // misc actions
+
+        // toast
+
+        // window insets & cutouts
         windowInsetsSeparator: ';',
+        statusBarHeight: 24,
+        initialStatusBarAppearance: <Bridge.SystemBarAppearance>'hide',
+        navigationBarHeight: 48,
+        initialNavigationBarAppearance: <Bridge.SystemBarAppearance>'hide',
     };
 }
 

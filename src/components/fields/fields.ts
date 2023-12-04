@@ -1,10 +1,4 @@
-export interface OptionStripOption<T> 
+export function options<T>(...params: [label: string, value: T][]): [label: string, value: T][]
 {
-    label: string;
-    value: T;
-}
-
-export function opt<T>(label: string, value: T): OptionStripOption<T>
-{
-    return { label, value };
+    return params;
 }
