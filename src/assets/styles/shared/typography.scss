@@ -19,10 +19,12 @@
 $font-families: (
     heading: "'Francois One', sans-serif",
     main: "'Signika', sans-serif",
+    mono: "'Consolas', monospace",
 );
 
 $ff-heading: -ff(heading);
 $ff-main: -ff(main);
+$ff-mono: -ff(mono);
 
 %type-jumbo {
     font-family: $ff-heading;
@@ -67,6 +69,12 @@ $ff-main: -ff(main);
 
 %type-button {
     font-family: $ff-main;
+    font-size: sz.$font-pri;
+    letter-spacing: 0.05em;
+}
+
+%type-mono {
+    font-family: $ff-mono;
     font-size: sz.$font-pri;
     letter-spacing: 0.05em;
 }

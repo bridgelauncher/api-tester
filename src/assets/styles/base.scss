@@ -61,13 +61,17 @@
     .type-pri {
         @extend %type-pri;
     }
-    
+
     .type-sec {
         @extend %type-sec;
     }
-    
+
     .type-button {
         @extend %type-button;
+    }
+    
+    .type-mono {
+        @extend %type-mono;
     }
 
     .col {
@@ -78,6 +82,25 @@
     .row {
         display: flex;
         flex-direction: row;
+    }
+
+    .pri {
+        @extend %type-pri;
+        color: c.$text-pri;
+    }
+
+    .sec {
+        @extend %type-pri;
+        color: c.$text-sec;
+    }
+
+    .bullet {
+        display: inline-block;
+        margin: 0 sz.$pad-min;
+
+        &:after {
+            content: "•";
+        }
     }
 
     .field {

@@ -42,14 +42,14 @@ watchEffect(() =>
         class="bridge-tester-root"
         :class="{ 'dev': envIsDev }"
         :style="{
-            'padding-top': px(insets.statusBarHeight),
-            'padding-bottom': px(insets.navigationBarHeight),
+            'padding-top': px(insets.statusBars.top),
+            'padding-bottom': px(insets.navigationBars.bottom),
         }"
         ref="scrollingRef"
         @click="Bridge.sendWallpaperTap($event.clientX, $event.clientY)">
 
         <div class="system-bar-bg top" :style="{
-            'height': px(insets.statusBarHeight),
+            'height': px(insets.statusBars.top),
         }"></div>
 
         <div class="columns" ref="columnsRef">
@@ -60,7 +60,7 @@ watchEffect(() =>
         </div>
 
         <div class="system-bar-bg bot" :style="{
-            'height': px(insets.navigationBarHeight),
+            'height': px(insets.navigationBars.bottom),
         }"></div>
 
     </div>

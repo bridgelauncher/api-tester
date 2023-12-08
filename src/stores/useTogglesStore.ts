@@ -1,8 +1,11 @@
 import { defineStore } from "pinia";
 import { ref, toValue, type Ref, readonly, computed } from "vue";
+import { useBridgeEventStore } from "./useBridgeEventStore";
 
 export const useTogglesStore = defineStore('toggles', () => 
 {
+    const bridgeEvents = useBridgeEventStore();
+
     const bridgeButtonVisibility = ref(Bridge.getBridgeButtonVisibility());
     const drawSystemWallpaperBehindWebView = ref(Bridge.getDrawSystemWallpaperBehindWebViewEnabled());
     const systemNightMode = ref(Bridge.getSystemNightMode());
@@ -10,7 +13,25 @@ export const useTogglesStore = defineStore('toggles', () =>
     const statusBarAppearance = ref(Bridge.getStatusBarAppearance());
     const navigationBarAppearance = ref(Bridge.getNavigationBarAppearance());
 
-    // TODO: listen for Bridge events
+    const canLockScreen = ref(Bridge.getCanLockScreen());
+
+    bridgeEvents.addEventListener((name, args) =>
+    {
+        if (name === 'bridgeButtonVisibilityChanged')
+            bridgeButtonVisibility.value = args.newValue;
+        else if (name === 'drawSystemWallpaperBehindWebViewChanged')
+            drawSystemWallpaperBehindWebView.value = args.newValue;
+        else if (name === 'systemNightModeChanged')
+            systemNightMode.value = args.newValue;
+        else if (name === 'bridgeThemeChanged')
+            bridgeTheme.value = args.newValue;
+        else if (name === 'statusBarAppearanceChanged')
+            statusBarAppearance.value = args.newValue;
+        else if (name === 'navigationBarAppearanceChanged')
+            navigationBarAppearance.value = args.newValue;
+        else if (name === 'canLockScreenChanged')
+            canLockScreen.value = args.newValue;
+    });
 
     return {
         bridgeButtonVisibility: computed({
@@ -23,7 +44,11 @@ export const useTogglesStore = defineStore('toggles', () =>
         }),
         systemNightMode: computed({
             get: () => toValue(systemNightMode),
-            set: x => Bridge.requestSetSystemNightMode(x),
+            set: x =>
+            {
+                if (x !== 'unknown' && x !== 'error')
+                    Bridge.requestSetSystemNightMode(x);
+            }
         }),
         bridgeTheme: computed({
             get: () => toValue(bridgeTheme),
@@ -37,5 +62,7 @@ export const useTogglesStore = defineStore('toggles', () =>
             get: () => toValue(navigationBarAppearance),
             set: x => Bridge.requestSetNavigationBarAppearance(x),
         }),
+
+        canLockScreen: readonly(canLockScreen)
     };
 });

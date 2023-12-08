@@ -9,7 +9,7 @@ import SvgIcon from '@/components/SvgIcon.vue';
 import IconButton from '@/components/buttons/IconButton.vue';
 import Tip from '@/components/Tip.vue';
 
-const appsStore = useAppsStore()
+const appsStore = useAppsStore();
 
 const searchPhrase = ref('');
 
@@ -17,10 +17,12 @@ const filteredApps = computed(() =>
 {
     const searchPhraseSimplified = simplifyString(searchPhrase.value);
     const searchPackageName = searchPhrase.value.trim().toLowerCase();
-    return appsStore.apps.filter(a =>
-        a.labelSimplified.includes(searchPhraseSimplified)
-        || a.packageName.includes(searchPackageName)
-    );
+    return Array.from(appsStore.apps.values())
+        .filter(a =>
+            a.labelSimplified.includes(searchPhraseSimplified)
+            || a.packageName.includes(searchPackageName)
+        )
+        .sort((a, b) => a.label.localeCompare(b.label));
 });
 
 </script>

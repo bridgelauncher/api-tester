@@ -4,6 +4,7 @@ import { options } from '@/components/fields/fields';
 import { useTogglesStore } from '@/stores/useTogglesStore';
 import Card from '@/components/Card.vue';
 import OptionStripField from '@/components/fields/OptionStripField.vue';
+import type { BridgeButtonVisibility, BridgeTheme, SystemBarAppearance, SystemNightMode } from '@/Bridge';
 
 const toggles = useTogglesStore();
 
@@ -15,7 +16,7 @@ const toggles = useTogglesStore();
             <OptionStripField
                 label="Bridge button"
                 v-model="toggles.bridgeButtonVisibility"
-                :options="options<Bridge.BridgeButtonVisibility>(
+                :options="options<BridgeButtonVisibility>(
                     ['Hidden', 'hidden'],
                     ['Shown', 'shown'],
                 )" />
@@ -31,7 +32,7 @@ const toggles = useTogglesStore();
             <OptionStripField
                 label="System night mode"
                 v-model="toggles.systemNightMode"
-                :options="options<Bridge.SystemNightMode>(
+                :options="options<SystemNightMode>(
                     ['Auto', 'auto'],
                     ['Custom', 'custom'],
                     ['Light', 'no'],
@@ -41,7 +42,7 @@ const toggles = useTogglesStore();
             <OptionStripField
                 label="Bridge theme"
                 v-model="toggles.bridgeTheme"
-                :options="options<Bridge.BridgeTheme>(
+                :options="options<BridgeTheme>(
                     ['System', 'system'],
                     ['Light', 'light'],
                     ['Dark', 'dark'],
@@ -50,7 +51,7 @@ const toggles = useTogglesStore();
             <OptionStripField
                 label="Status bar"
                 v-model="toggles.statusBarAppearance"
-                :options="options<Bridge.SystemBarAppearance>(
+                :options="options<SystemBarAppearance>(
                     ['Hide', 'hide'],
                     ['Light FG', 'light-fg'],
                     ['Dark FG', 'dark-fg'],

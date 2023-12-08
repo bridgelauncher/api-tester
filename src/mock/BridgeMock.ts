@@ -1,25 +1,31 @@
+import type { BridgeButtonVisibility, BridgeEventListenerArgs, BridgeTheme, JSToBridgeAPI, SystemBarAppearance, SystemNightMode, SystemNightModeOrError, WindowInsets, WindowInsetsJson } from "@/Bridge";
 import { createDefaultBridgeMockConfig as createDefaultBridgeMockConfig, type BridgeMockConfig } from "./BridgeMockConfig";
 
-export default class BridgeMock implements Bridge.JSToAndroidAPI
+export function windowInsets(left: number, top: number, right: number, bottom: number): WindowInsets
+{
+    return { left, top, right, bottom };
+}
+
+export default class BridgeMock implements JSToBridgeAPI
 {
     public config: BridgeMockConfig;
 
     protected _prefix = '[BridgeMock]';
 
     protected _lastErrorMessage: string | null = null;
-    
+
     protected _wallpaperOffsetStepsX: number = 1;
     protected _wallpaperOffsetStepsY: number = 1;
     protected _wallpaperOffsetX: number = 0;
     protected _wallpaperOffsetY: number = 0;
 
 
-    protected _bridgeButtonVisibility: Bridge.BridgeButtonVisibility;
+    protected _bridgeButtonVisibility: BridgeButtonVisibility;
     protected _drawSystemWallpaperBehindWebViewEnabled: boolean;
-    protected _systemNightMode: Bridge.SystemNightModeOrError;
-    protected _bridgeTheme: Bridge.BridgeTheme;
-    protected _statusBarAppearance: Bridge.SystemBarAppearance;
-    protected _navigationBarAppearance: Bridge.SystemBarAppearance;
+    protected _systemNightMode: SystemNightModeOrError;
+    protected _bridgeTheme: BridgeTheme;
+    protected _statusBarAppearance: SystemBarAppearance;
+    protected _navigationBarAppearance: SystemBarAppearance;
     protected _canLockScreen: boolean;
 
     constructor(config?: BridgeMockConfig)
@@ -60,12 +66,18 @@ export default class BridgeMock implements Bridge.JSToAndroidAPI
         return this.config.appsUrl;
     }
 
+    getDefaultAppIconURL(packageName: string): string 
+    {
+        return this.config.makeGetDefaultIconUrl(packageName);
+    }
+
 
     // apps
 
     requestAppUninstall(packageName: string, showToastIfFailed?: boolean): boolean
     {
         alert(`${this._prefix} requestAppUninstall: ${packageName}`);
+        this.raiseBridgeEvent('appRemoved', { packageName });
         return true;
     }
 
@@ -93,7 +105,7 @@ export default class BridgeMock implements Bridge.JSToAndroidAPI
     {
         this._wallpaperOffsetStepsX = x;
         this._wallpaperOffsetStepsY = y;
-        if (this.config.wallpaperEventLogging)
+        if (this.config.logWallpaperEvents)
             console.log(`${this._prefix} setWallpaperOffsetSteps: x = ${this._padNum(x)} y = ${y} (pages: x = ${Math.round(1 / x) - 1}, y = ${Math.round(1 / y) - 1})`);
     }
 
@@ -101,13 +113,13 @@ export default class BridgeMock implements Bridge.JSToAndroidAPI
     {
         this._wallpaperOffsetX = x;
         this._wallpaperOffsetY = y;
-        if (this.config.wallpaperEventLogging)
+        if (this.config.logWallpaperScrolling)
             console.log(`${this._prefix} setWallpaperOffsets: x = ${this._padNum(x)} y = ${this._padNum(y)} (pages: x = ${this._padNum(x / this._wallpaperOffsetStepsX)} y = ${this._padNum(y / this._wallpaperOffsetStepsY)})`);
     }
 
     sendWallpaperTap(x: number, y: number): void
     {
-        if (this.config.wallpaperEventLogging)
+        if (this.config.logWallpaperEvents)
             console.log(`${this._prefix} sendWallpaperTap: x = ${x}, y = ${y}`);
     }
 
@@ -120,14 +132,15 @@ export default class BridgeMock implements Bridge.JSToAndroidAPI
 
     // Bridge button
 
-    getBridgeButtonVisibility(): Bridge.BridgeButtonVisibility
+    getBridgeButtonVisibility(): BridgeButtonVisibility
     {
         return this._bridgeButtonVisibility;
     }
 
-    requestSetBridgeButtonVisibility(state: Bridge.BridgeButtonVisibility, showToastIfFailed?: boolean): boolean
+    requestSetBridgeButtonVisibility(state: BridgeButtonVisibility, showToastIfFailed?: boolean): boolean
     {
         this._bridgeButtonVisibility = state;
+        this.raiseBridgeEvent('bridgeButtonVisibilityChanged', { newValue: state });
         return true;
     }
 
@@ -142,13 +155,14 @@ export default class BridgeMock implements Bridge.JSToAndroidAPI
     requestSetDrawSystemWallpaperBehindWebViewEnabled(enable: boolean, showToastIfFailed?: boolean): boolean
     {
         this._drawSystemWallpaperBehindWebViewEnabled = enable;
+        this.raiseBridgeEvent('drawSystemWallpaperBehindWebViewChanged', { newValue: enable });
         return true;
     }
 
 
     // system night mode
 
-    getSystemNightMode(): Bridge.SystemNightModeOrError
+    getSystemNightMode(): SystemNightModeOrError
     {
         return this._systemNightMode;
     }
@@ -162,48 +176,56 @@ export default class BridgeMock implements Bridge.JSToAndroidAPI
             );
     }
 
-    requestSetSystemNightMode(mode: Bridge.SystemNightMode, showToastIfFailed?: boolean): boolean
+    requestSetSystemNightMode(mode: SystemNightMode, showToastIfFailed?: boolean): boolean
     {
         this._systemNightMode = mode;
+        this.raiseBridgeEvent('systemNightModeChanged', { newValue: mode });
         return true;
     }
 
 
     // Bridge theme
 
-    getBridgeTheme(): Bridge.BridgeTheme
+    getBridgeTheme(): BridgeTheme
     {
         return this._bridgeTheme;
     }
 
-    requestSetBridgeTheme(theme: Bridge.BridgeTheme, showToastIfFailed?: boolean): boolean
+    requestSetBridgeTheme(theme: BridgeTheme, showToastIfFailed?: boolean): boolean
     {
         this._bridgeTheme = theme;
+        this.raiseBridgeEvent('bridgeThemeChanged', { newValue: theme });
         return true;
     }
 
 
     // system bars
 
-    getStatusBarAppearance(): Bridge.SystemBarAppearance
+    getStatusBarAppearance(): SystemBarAppearance
     {
         return this._statusBarAppearance;
     }
 
-    requestSetStatusBarAppearance(appearance: Bridge.SystemBarAppearance, showToastIfFailed?: boolean): boolean
+    requestSetStatusBarAppearance(appearance: SystemBarAppearance, showToastIfFailed?: boolean): boolean
     {
         this._statusBarAppearance = appearance;
+        this.raiseBridgeEvent('statusBarAppearanceChanged', { newValue: appearance });
+        this.raiseBridgeEvent('statusBarsWindowInsetsChanged', { newValue: this._getStatusBarsWindowInsets() });
+        this.raiseBridgeEvent('systemBarsWindowInsetsChanged', { newValue: this._getSystemBarsWindowInsets() });
         return true;
     }
 
-    getNavigationBarAppearance(): Bridge.SystemBarAppearance
+    getNavigationBarAppearance(): SystemBarAppearance
     {
         return this._navigationBarAppearance;
     }
 
-    requestSetNavigationBarAppearance(appearance: Bridge.SystemBarAppearance, showToastIfFailed?: boolean): boolean
+    requestSetNavigationBarAppearance(appearance: SystemBarAppearance, showToastIfFailed?: boolean): boolean
     {
         this._navigationBarAppearance = appearance;
+        this.raiseBridgeEvent('navigationBarAppearanceChanged', { newValue: appearance });
+        this.raiseBridgeEvent('navigationBarsWindowInsetsChanged', { newValue: this._getNavigationBarsWindowInsets() });
+        this.raiseBridgeEvent('systemBarsWindowInsetsChanged', { newValue: this.getSystemBarsWindowInsets() });
         return true;
     }
 
@@ -259,14 +281,14 @@ export default class BridgeMock implements Bridge.JSToAndroidAPI
 
     // window insets & cutouts
 
-    getWindowInsetsSeparator(): string
+    protected _getStatusBarsWindowInsets(): WindowInsets
     {
-        return this.config.windowInsetsSeparator;
+        return windowInsets(0, this._statusBarAppearance === 'hide' ? 0 : this.config.statusBarHeight, 0, 0);
     }
 
     getStatusBarsWindowInsets(): string
     {
-        return this.windowInsetsString(0, this.config.initialStatusBarAppearance === 'hide' ? 0 : this.config.statusBarHeight, 0, 0);
+        return this.windowInsetsString(this._getStatusBarsWindowInsets());
     }
 
     getStatusBarsIgnoringVisibilityWindowInsets(): string
@@ -274,9 +296,14 @@ export default class BridgeMock implements Bridge.JSToAndroidAPI
         return this.windowInsetsString(0, this.config.statusBarHeight, 0, 0);
     }
 
+    protected _getNavigationBarsWindowInsets(): WindowInsets
+    {
+        return windowInsets(0, 0, 0, this._navigationBarAppearance === 'hide' ? 0 : this.config.navigationBarHeight);
+    }
+
     getNavigationBarsWindowInsets(): string
     {
-        return this.windowInsetsString(0, 0, 0, this.config.initialNavigationBarAppearance === 'hide' ? 0 : this.config.navigationBarHeight);
+        return this.windowInsetsString(this._getNavigationBarsWindowInsets());
     }
 
     getNavigationBarsIgnoringVisibilityWindowInsets(): string
@@ -286,22 +313,27 @@ export default class BridgeMock implements Bridge.JSToAndroidAPI
 
     getCaptionBarWindowInsets(): string
     {
-        throw new Error("Method not implemented.");
+        return this.windowInsetsString(this.config.captionBarWindowInsets);
     }
 
     getCaptionBarIgnoringVisibilityWindowInsets(): string
     {
-        throw new Error("Method not implemented.");
+        return this.windowInsetsString(this.config.captionBarIgnoringVisibilityWindowInsets);
+    }
+
+    protected _getSystemBarsWindowInsets(): WindowInsets
+    {
+        return windowInsets(
+            0,
+            this._statusBarAppearance === 'hide' ? 0 : this.config.statusBarHeight,
+            0,
+            this._navigationBarAppearance === 'hide' ? 0 : this.config.navigationBarHeight,
+        );
     }
 
     getSystemBarsWindowInsets(): string
     {
-        return this.windowInsetsString(
-            0,
-            this.config.initialStatusBarAppearance === 'hide' ? 0 : this.config.statusBarHeight,
-            0,
-            this.config.initialNavigationBarAppearance === 'hide' ? 0 : this.config.navigationBarHeight
-        );
+        return this.windowInsetsString(this._getSystemBarsWindowInsets());
     }
 
     getSystemBarsIgnoringVisibilityWindowInsets(): string
@@ -314,66 +346,83 @@ export default class BridgeMock implements Bridge.JSToAndroidAPI
         );
     }
 
-    getImeWindowInsets(): string
+    getImeWindowInsets(): WindowInsetsJson
     {
-        throw new Error("Method not implemented.");
+        return this.windowInsetsString(this.config.imeWindowInsets);
     }
 
-    getImeAnimationSourceWindowInsets(): string
+    getImeAnimationSourceWindowInsets(): WindowInsetsJson
     {
-        throw new Error("Method not implemented.");
+        return this.windowInsetsString(this.config.imeAnimationSourceWindowInsets);
     }
 
-    getImeAnimationTargetWindowInsets(): string
+    getImeAnimationTargetWindowInsets(): WindowInsetsJson
     {
-        throw new Error("Method not implemented.");
+        return this.windowInsetsString(this.config.imeAnimationTargetWindowInsets);
     }
 
-    getTappableElementWindowInsets(): string
+    getTappableElementWindowInsets(): WindowInsetsJson
     {
-        throw new Error("Method not implemented.");
+        return this.windowInsetsString(this.config.tappableElementWindowInsets);
     }
 
-    getTappableElementIgnoringVisibilityWindowInsets(): string
+    getTappableElementIgnoringVisibilityWindowInsets(): WindowInsetsJson
     {
-        throw new Error("Method not implemented.");
+        return this.windowInsetsString(this.config.tappableElementIgnoringVisibilityWindowInsets);
     }
 
-    getSystemGesturesWindowInsets(): string
+    getSystemGesturesWindowInsets(): WindowInsetsJson
     {
-        throw new Error("Method not implemented.");
+        return this.windowInsetsString(this.config.systemGesturesWindowInsets);
     }
 
-    getMandatorySystemGesturesWindowInsets(): string
+    getMandatorySystemGesturesWindowInsets(): WindowInsetsJson
     {
-        throw new Error("Method not implemented.");
+        return this.windowInsetsString(this.config.mandatorySystemGesturesWindowInsets);
     }
 
-    getDisplayCutoutWindowInsets(): string
+    getDisplayCutoutWindowInsets(): WindowInsetsJson
     {
-        throw new Error("Method not implemented.");
+        return this.windowInsetsString(this.config.displayCutoutWindowInsets);
     }
 
-    getWaterfallWindowInsets(): string
+    getWaterfallWindowInsets(): WindowInsetsJson
     {
-        throw new Error("Method not implemented.");
+        return this.windowInsetsString(this.config.waterfallWindowInsets);
     }
+
 
     getDisplayCutoutPath(): string | null
     {
-        throw new Error("Method not implemented.");
+        return this.config.displayCutoutPath;
     }
 
     getDisplayShapePath(): string | null
     {
-        throw new Error("Method not implemented.");
+        return this.config.displayShapePath;
     }
 
 
     // helpers
 
-    protected windowInsetsString(left: number, top: number, right: number, bottom: number)
+    protected windowInsetsString(insets: WindowInsets): WindowInsetsJson;
+    protected windowInsetsString(left: number, top: number, right: number, bottom: number): WindowInsetsJson;
+    protected windowInsetsString(leftOrInsets: number | WindowInsets, top?: number, right?: number, bottom?: number): WindowInsetsJson
     {
-        return [left, top, right, bottom].join(this.config.windowInsetsSeparator);
+        if (typeof leftOrInsets === 'object')
+            return JSON.stringify(leftOrInsets);
+        else
+            return JSON.stringify(<WindowInsets>{ left: leftOrInsets, top, right, bottom });
+    }
+
+    protected raiseBridgeEvent(...event: BridgeEventListenerArgs)
+    {
+        if (this.config.logRaisedBridgeEvents)
+        {
+            const [name, args] = event;
+            console.log(`[BridgeMock] raiseBridgeEvent(${name}): args:`, args);
+        }
+
+        onBridgeEvent?.(...event);
     }
 }
