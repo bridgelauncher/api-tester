@@ -39,6 +39,8 @@ export const useWindowInsetsStore = defineStore('windowInsets', () =>
 
     bridgeEvents.addEventListener((name, args) =>
     {
+        console.log('@useWindowInsetsStore: onBridgeEvent:', name, JSON.stringify(args));
+
         if (name === 'statusBarsWindowInsetsChanged')
             statusBars.value = args.newValue;
         else if (name === 'statusBarsIgnoringVisibilityWindowInsetsChanged')

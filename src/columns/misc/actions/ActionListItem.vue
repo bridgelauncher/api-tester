@@ -1,10 +1,19 @@
 <script setup lang="ts">
 
+const props = defineProps<{
+    disabled?: boolean;
+}>();
+
 </script>
 
 <template>
-    <div class="action-list-item" v-wave>
-        <slot></slot>    
+    <div
+        class="action-list-item"
+        :class="{
+            'disabled': disabled,
+        }"
+        v-wave>
+        <slot></slot>
     </div>
 </template>
 
@@ -16,5 +25,9 @@
     padding: sz.$pad-min sz.$pad;
     min-height: sz.$click-target;
     cursor: pointer;
+
+    &.disabled {
+        opacity: c.$opacity-disabled;
+    }
 }
 </style>

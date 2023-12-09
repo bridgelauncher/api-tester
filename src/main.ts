@@ -7,6 +7,7 @@ import injectBridgeMockInDev from './mock/injectBridgeMockInDev';
 import VWave from 'v-wave';
 import App from './App.vue';
 
+console.log('@main: !!window.Bridge:', !!window.Bridge);
 injectBridgeMockInDev();
 
 const app = createApp(App);

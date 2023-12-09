@@ -30,7 +30,7 @@ export function createDefaultBridgeMockConfig()
         initialBridgeTheme: <BridgeTheme>'system',
 
         // screen locking 
-        initialCanLockScreen: true,
+        initialCanLockScreen: false,
 
         // misc actions
 

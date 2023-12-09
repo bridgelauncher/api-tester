@@ -225,7 +225,7 @@ export default class BridgeMock implements JSToBridgeAPI
         this._navigationBarAppearance = appearance;
         this.raiseBridgeEvent('navigationBarAppearanceChanged', { newValue: appearance });
         this.raiseBridgeEvent('navigationBarsWindowInsetsChanged', { newValue: this._getNavigationBarsWindowInsets() });
-        this.raiseBridgeEvent('systemBarsWindowInsetsChanged', { newValue: this.getSystemBarsWindowInsets() });
+        this.raiseBridgeEvent('systemBarsWindowInsetsChanged', { newValue: this._getSystemBarsWindowInsets() });
         return true;
     }
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useWallpaperOffsetStore } from '@/stores/useWallpaperOffsetStore';
 import { useWindowInsetsStore } from '@/stores/useWindowInsetsStore';
-import { ref, watchEffect } from 'vue';
+import { ref, watch, watchEffect } from 'vue';
 import { px } from './utils/el-utils';
 import { useElementSize, useScroll } from '@vueuse/core';
 import HomeColumn from './columns/home/HomeColumn.vue';
@@ -34,6 +34,13 @@ watchEffect(() =>
     wallpaperOffsets.pageScrollOffsetX = x;
     wallpaperOffsets.pageScrollOffsetY = y;
 });
+
+watch(() => insets.statusBars, (insets) =>
+{
+    console.log('@App.watch(insets.statusBars):', JSON.stringify(insets));
+}, {
+    immediate: true
+})
 
 </script>
 

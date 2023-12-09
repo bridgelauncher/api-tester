@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import Card from '@/components/Card.vue';
 import ActionListItem from './ActionListItem.vue';
+import { useTogglesStore } from '@/stores/useTogglesStore';
+
+const toggles = useTogglesStore();
 
 function throwError()
 {
@@ -21,7 +24,8 @@ function throwError()
             <ActionListItem @click="Bridge.requestExpandNotificationShade()">
                 Expand notification shade
             </ActionListItem>
-            <ActionListItem @click="Bridge.requestLockScreen()">
+            <ActionListItem @click="Bridge.requestLockScreen()"
+                :disabled="!toggles.canLockScreen">
                 Lock screen
             </ActionListItem>
             <ActionListItem @click="Bridge.requestChangeSystemWallpaper()">
