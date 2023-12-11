@@ -3,7 +3,7 @@ import { useWallpaperOffsetStore } from '@/stores/useWallpaperOffsetStore';
 import { useWindowInsetsStore } from '@/stores/useWindowInsetsStore';
 import { ref, watch, watchEffect } from 'vue';
 import { px } from './utils/el-utils';
-import { useElementSize, useScroll } from '@vueuse/core';
+import { useElementSize, useScroll, useSwipe } from '@vueuse/core';
 import HomeColumn from './columns/home/HomeColumn.vue';
 import AppsColumn from './columns/apps/AppsColumn.vue';
 import MiscColumn from './columns/misc/MiscColumn.vue';
@@ -33,6 +33,14 @@ watchEffect(() =>
 
     wallpaperOffsets.pageScrollOffsetX = x;
     wallpaperOffsets.pageScrollOffsetY = y;
+});
+
+const swipe = useSwipe(scrollingRef, {
+    onSwipeEnd: (e, direction) =>
+    {
+        if (direction === 'down' && scrollState.y.value <= 1)
+            Bridge.requestExpandNotificationShade();
+    },
 });
 
 watch(() => insets.statusBars, (insets) =>
