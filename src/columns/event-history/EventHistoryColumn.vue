@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BridgeEventMap, BridgeEventName } from '@/Bridge';
+import type { BridgeEventMap, BridgeEventName } from '@bridgelauncher/api';
 import Card from '@/components/Card.vue';
 import IconButton from '@/components/buttons/IconButton.vue';
 import { useBridgeEventStore } from '@/stores/useBridgeEventStore';
@@ -60,6 +60,9 @@ function categoryFor(name: BridgeEventName): EventCategory
         case 'displayCutoutWindowInsetsChanged':
         case 'waterfallWindowInsetsChanged':
             return 'insets';
+
+        default:
+            return 'system';
     }
 }
 

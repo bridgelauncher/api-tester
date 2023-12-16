@@ -8,12 +8,13 @@ import HomeColumn from './columns/home/HomeColumn.vue';
 import AppsColumn from './columns/apps/AppsColumn.vue';
 import MiscColumn from './columns/misc/MiscColumn.vue';
 import EventHistoryColumn from './columns/event-history/EventHistoryColumn.vue';
+import { useTogglesStore } from './stores/useTogglesStore';
 
 const envIsDev = import.meta.env.DEV;
 
 const insets = useWindowInsetsStore();
 const wallpaperOffsets = useWallpaperOffsetStore();
-
+const toggles = useTogglesStore();
 
 const columnsRef = ref<HTMLElement>();
 const columnsSize = useElementSize(columnsRef);
@@ -24,15 +25,18 @@ const scrollState = useScroll(scrollingRef);
 
 watchEffect(() =>
 {
-    const maxOffsetX = columnsSize.width.value - scrollingSize.width.value;
-    const maxOffsetY = columnsSize.height.value - scrollingSize.height.value;
-    const sx = scrollState.x.value;
-    const sy = scrollState.y.value;
-    const x = maxOffsetX === 0 ? 0 : sx / maxOffsetX;
-    const y = maxOffsetY === 0 ? 0 : sy / maxOffsetY;
+    requestAnimationFrame(() =>
+    {
+        const maxOffsetX = columnsSize.width.value - scrollingSize.width.value;
+        const maxOffsetY = columnsSize.height.value - scrollingSize.height.value;
+        const sx = scrollState.x.value;
+        const sy = scrollState.y.value;
+        const x = maxOffsetX === 0 ? 0 : sx / maxOffsetX;
+        const y = maxOffsetY === 0 ? 0 : sy / maxOffsetY;
 
-    wallpaperOffsets.pageScrollOffsetX = x;
-    wallpaperOffsets.pageScrollOffsetY = y;
+        wallpaperOffsets.pageScrollOffsetX = x;
+        wallpaperOffsets.pageScrollOffsetY = y;
+    });
 });
 
 const swipe = useSwipe(scrollingRef, {
@@ -63,9 +67,12 @@ watch(() => insets.statusBars, (insets) =>
         ref="scrollingRef"
         @click="Bridge.sendWallpaperTap($event.clientX, $event.clientY)">
 
-        <div class="system-bar-bg top" :style="{
-            'height': px(insets.statusBars.top),
-        }"></div>
+        <div
+            class="system-bar-bg top"
+            :class="toggles.statusBarAppearance"
+            :style="{
+                'height': px(insets.statusBars.top),
+            }"></div>
 
         <div class="columns" ref="columnsRef">
             <HomeColumn />
@@ -74,9 +81,12 @@ watch(() => insets.statusBars, (insets) =>
             <EventHistoryColumn />
         </div>
 
-        <div class="system-bar-bg bot" :style="{
-            'height': px(insets.navigationBars.bottom),
-        }"></div>
+        <div
+            class="system-bar-bg bot"
+            :class="toggles.navigationBarAppearance"
+            :style="{
+                'height': px(insets.navigationBars.bottom),
+            }"></div>
 
     </div>
 </template>
@@ -95,10 +105,17 @@ watch(() => insets.statusBars, (insets) =>
     }
 
     > .system-bar-bg {
-        background-color: rgba(magenta, 0.5);
         position: fixed;
         left: 0;
         right: 0;
+
+        &.dark-fg {
+            background-color: rgba(#fff, 0.5);
+        }
+
+        &.light-fg {
+            background-color: rgba(#000, 0.5);
+        }
 
         &.top {
             top: 0;
@@ -130,4 +147,3 @@ watch(() => insets.statusBars, (insets) =>
 
 }
 </style>
-./stores/useWindowInsetsStore

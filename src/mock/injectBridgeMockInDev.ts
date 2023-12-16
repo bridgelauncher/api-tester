@@ -1,4 +1,4 @@
-import BridgeMock from "./BridgeMock";
+import { BridgeMock } from '@bridgelauncher/api-mock';
 
 export default function injectBridgeMockInDev()
 {

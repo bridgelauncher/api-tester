@@ -16,7 +16,9 @@
     "pinia": "^2.1.7",
     "sass": "^1.69.5",
     "v-wave": "^1.5.1",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "@bridgelauncher/api": "^0.0.1",
+    "@bridgelauncher/api-mock": "^0.0.1"
   },
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",
