@@ -22,6 +22,8 @@ function categoryFor(name: BridgeEventName): EventCategory
 
         case 'beforePause':
         case 'afterResume':
+        case 'canRequestSystemNightModeChanged':
+        case 'canLockScreenChanged':
             return 'system';
 
         case 'bridgeButtonVisibilityChanged':
@@ -31,9 +33,6 @@ function categoryFor(name: BridgeEventName): EventCategory
         case 'statusBarAppearanceChanged':
         case 'navigationBarAppearanceChanged':
             return 'toggles';
-
-        case 'canLockScreenChanged':
-            return 'system';
 
         case 'statusBarsWindowInsetsChanged':
         case 'statusBarsIgnoringVisibilityWindowInsetsChanged':

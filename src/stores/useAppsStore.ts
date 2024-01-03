@@ -2,7 +2,7 @@ import { simplifyString } from "@/utils/misc-utils";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useBridgeEventStore } from "./useBridgeEventStore";
-import type { BridgeInstalledAppInfo } from "@/Bridge";
+import type { BridgeGetAppsResponse, BridgeInstalledAppInfo } from "@bridgelauncher/api";
 
 export interface InstalledAppInfo extends BridgeInstalledAppInfo
 {
@@ -35,11 +35,11 @@ export const useAppsStore = defineStore('apps', () =>
         try
         {
             const resp = await fetch(Bridge.getAppsURL());
-            const respApps = await resp.json() as BridgeInstalledAppInfo[];
+            const respApps = await resp.json() as BridgeGetAppsResponse;
 
             const newApps = new Map<string, InstalledAppInfo>();
 
-            for (const a of respApps) 
+            for (const a of respApps.apps) 
             {
                 newApps.set(a.packageName, processAppFromAPI(a));
             }

@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { useAppsStore } from "./useAppsStore";
 import { useTogglesStore } from "./useTogglesStore";
-import type { BridgeEventListener, BridgeEventListenerArgs } from "@/Bridge";
+import type { BridgeEventListener, BridgeEventListenerArgs } from "@bridgelauncher/api";
 
 export type EventHistoryEntry = {
     time: Date;

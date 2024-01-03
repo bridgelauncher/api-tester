@@ -4,7 +4,7 @@ import { options } from '@/components/fields/fields';
 import { useTogglesStore } from '@/stores/useTogglesStore';
 import Card from '@/components/Card.vue';
 import OptionStripField from '@/components/fields/OptionStripField.vue';
-import type { BridgeButtonVisibility, BridgeTheme, SystemBarAppearance, SystemNightMode } from '@/Bridge';
+import type { BridgeButtonVisibility, OverscrollEffects, BridgeTheme, SystemBarAppearance, SystemNightMode } from '@bridgelauncher/api';
 
 const toggles = useTogglesStore();
 
@@ -27,6 +27,14 @@ const toggles = useTogglesStore();
                 :options="options<boolean>(
                     ['Disabled', false],
                     ['Enabled', true],
+                )" />
+
+            <OptionStripField
+                label="Draw overscroll effects"
+                v-model="toggles.overscrollEffects"
+                :options="options<OverscrollEffects>(
+                    ['Disabled', 'none'],
+                    ['Enabled', 'default'],
                 )" />
 
             <OptionStripField

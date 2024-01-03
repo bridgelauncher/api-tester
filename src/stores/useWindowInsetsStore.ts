@@ -1,4 +1,4 @@
-import type { WindowInsets, WindowInsetsJson } from "@/Bridge";
+import type { WindowInsets, WindowInsetsJson } from "@bridgelauncher/api";
 import { defineStore } from "pinia";
 import { computed, ref, toValue } from "vue";
 import { useBridgeEventStore } from "./useBridgeEventStore";

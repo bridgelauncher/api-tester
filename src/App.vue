@@ -25,15 +25,15 @@ const scrollState = useScroll(scrollingRef);
 
 watchEffect(() =>
 {
+    const maxOffsetX = columnsSize.width.value - scrollingSize.width.value;
+    const maxOffsetY = columnsSize.height.value - scrollingSize.height.value;
+    const sx = scrollState.x.value;
+    const sy = scrollState.y.value;
+    const x = maxOffsetX === 0 ? 0 : sx / maxOffsetX;
+    const y = maxOffsetY === 0 ? 0 : sy / maxOffsetY;
+
     requestAnimationFrame(() =>
     {
-        const maxOffsetX = columnsSize.width.value - scrollingSize.width.value;
-        const maxOffsetY = columnsSize.height.value - scrollingSize.height.value;
-        const sx = scrollState.x.value;
-        const sy = scrollState.y.value;
-        const x = maxOffsetX === 0 ? 0 : sx / maxOffsetX;
-        const y = maxOffsetY === 0 ? 0 : sy / maxOffsetY;
-
         wallpaperOffsets.pageScrollOffsetX = x;
         wallpaperOffsets.pageScrollOffsetY = y;
     });
@@ -46,13 +46,6 @@ const swipe = useSwipe(scrollingRef, {
             Bridge.requestExpandNotificationShade();
     },
 });
-
-watch(() => insets.statusBars, (insets) =>
-{
-    console.log('@App.watch(insets.statusBars):', JSON.stringify(insets));
-}, {
-    immediate: true
-})
 
 </script>
 

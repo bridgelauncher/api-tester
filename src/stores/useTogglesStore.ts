@@ -8,6 +8,7 @@ export const useTogglesStore = defineStore('toggles', () =>
 
     const bridgeButtonVisibility = ref(Bridge.getBridgeButtonVisibility());
     const drawSystemWallpaperBehindWebView = ref(Bridge.getDrawSystemWallpaperBehindWebViewEnabled());
+    const overscrollEffects = ref(Bridge.getOverscrollEffects());
     const systemNightMode = ref(Bridge.getSystemNightMode());
     const bridgeTheme = ref(Bridge.getBridgeTheme());
     const statusBarAppearance = ref(Bridge.getStatusBarAppearance());
@@ -21,6 +22,8 @@ export const useTogglesStore = defineStore('toggles', () =>
             bridgeButtonVisibility.value = args.newValue;
         else if (name === 'drawSystemWallpaperBehindWebViewChanged')
             drawSystemWallpaperBehindWebView.value = args.newValue;
+        else if (name === 'overscrollEffectsChanged')
+            overscrollEffects.value = args.newValue;
         else if (name === 'systemNightModeChanged')
             systemNightMode.value = args.newValue;
         else if (name === 'bridgeThemeChanged')
@@ -41,6 +44,10 @@ export const useTogglesStore = defineStore('toggles', () =>
         drawSystemWallpaperBehindWebView: computed({
             get: () => toValue(drawSystemWallpaperBehindWebView),
             set: x => Bridge.requestSetDrawSystemWallpaperBehindWebViewEnabled(x),
+        }),
+        overscrollEffects: computed({
+            get: () => toValue(overscrollEffects),
+            set: x => Bridge.requestSetOverscrollEffects(x),
         }),
         systemNightMode: computed({
             get: () => toValue(systemNightMode),

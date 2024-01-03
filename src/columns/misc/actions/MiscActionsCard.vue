@@ -18,6 +18,9 @@ function throwError()
             <ActionListItem @click="Bridge.requestOpenBridgeSettings()">
                 Open Bridge settings
             </ActionListItem>
+            <ActionListItem @click="Bridge.requestOpenBridgeAppDrawer()">
+                Open Bridge app drawer
+            </ActionListItem>
             <ActionListItem @click="Bridge.requestOpenDeveloperConsole()">
                 Open developer console
             </ActionListItem>

@@ -25,6 +25,7 @@ function getClockText()
         <div class="stick">
             <div class="type-jumbo">{{ getClockText() }}</div>
             <div class="type-pri">Bridge Launcher API Tester</div>
+            <div class="type-pri">Bridge v.{{ Bridge.getBridgeVersionName() }} ({{ Bridge.getBridgeVersionCode() }})</div>
             <div class="type-sec">Tap anywhere to send a wallpaper tap</div>
             <div class="type-sec">Swipe left for tools</div>
         </div>
