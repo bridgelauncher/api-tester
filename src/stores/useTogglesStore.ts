@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
-import { ref, toValue, type Ref, readonly, computed } from "vue";
+import { ref, toValue, readonly, computed } from "vue";
 import { useBridgeEventStore } from "./useBridgeEventStore";
+import type { BridgeButtonVisibility, OverscrollEffects, SystemNightModeOrError, BridgeTheme, SystemBarAppearance } from '@bridgelauncher/api';
 
 export const useTogglesStore = defineStore('toggles', () => 
 {
@@ -16,24 +17,24 @@ export const useTogglesStore = defineStore('toggles', () =>
 
     const canLockScreen = ref(Bridge.getCanLockScreen());
 
-    bridgeEvents.addEventListener((name, args) =>
+    bridgeEvents.addEventListener(ev =>
     {
-        if (name === 'bridgeButtonVisibilityChanged')
-            bridgeButtonVisibility.value = args.newValue;
-        else if (name === 'drawSystemWallpaperBehindWebViewChanged')
-            drawSystemWallpaperBehindWebView.value = args.newValue;
-        else if (name === 'overscrollEffectsChanged')
-            overscrollEffects.value = args.newValue;
-        else if (name === 'systemNightModeChanged')
-            systemNightMode.value = args.newValue;
-        else if (name === 'bridgeThemeChanged')
-            bridgeTheme.value = args.newValue;
-        else if (name === 'statusBarAppearanceChanged')
-            statusBarAppearance.value = args.newValue;
-        else if (name === 'navigationBarAppearanceChanged')
-            navigationBarAppearance.value = args.newValue;
-        else if (name === 'canLockScreenChanged')
-            canLockScreen.value = args.newValue;
+        if (ev.name === 'bridgeButtonVisibilityChanged')
+            bridgeButtonVisibility.value = ev.newValue;
+        else if (ev.name === 'drawSystemWallpaperBehindWebViewChanged')
+            drawSystemWallpaperBehindWebView.value = ev.newValue;
+        else if (ev.name === 'overscrollEffectsChanged')
+            overscrollEffects.value = ev.newValue;
+        else if (ev.name === 'systemNightModeChanged')
+            systemNightMode.value = ev.newValue;
+        else if (ev.name === 'bridgeThemeChanged')
+            bridgeTheme.value = ev.newValue;
+        else if (ev.name === 'statusBarAppearanceChanged')
+            statusBarAppearance.value = ev.newValue;
+        else if (ev.name === 'navigationBarAppearanceChanged')
+            navigationBarAppearance.value = ev.newValue;
+        else if (ev.name === 'canLockScreenChanged')
+            canLockScreen.value = ev.newValue;
     });
 
     return {

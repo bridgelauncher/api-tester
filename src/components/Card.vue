@@ -16,7 +16,8 @@ const props = defineProps<{
 </script>
 
 <template>
-    <section class="card">
+    <section class="card"
+        @click.stop="">
         <header>
             <div class="title">
                 {{ title }}

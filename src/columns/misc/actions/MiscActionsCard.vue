@@ -34,6 +34,9 @@ function throwError()
             <ActionListItem @click="Bridge.requestChangeSystemWallpaper()">
                 Request change system wallpaper
             </ActionListItem>
+            <ActionListItem @click="Bridge.requestOpenAndroidSettings()">
+                Open Android settings
+            </ActionListItem>
         </main>
         <div class="separator"></div>
         <main>

@@ -65,15 +65,15 @@ export const useAppsStore = defineStore('apps', () =>
 
     requestAppsAsync();
 
-    bridgeEvents.addEventListener((name, args) =>
+    bridgeEvents.addEventListener(ev =>
     {
-        if (name === 'appInstalled' || name === 'appChanged')
+        if (ev.name === 'appInstalled' || ev.name === 'appChanged')
         {
-            apps.value.set(args.packageName, processAppFromAPI(args));
+            apps.value.set(ev.app.packageName, processAppFromAPI(ev.app));
         }
-        else if (name === 'appRemoved')
+        else if (ev.name === 'appRemoved')
         {
-            apps.value.delete(args.packageName);
+            apps.value.delete(ev.packageName);
         }
     });
 

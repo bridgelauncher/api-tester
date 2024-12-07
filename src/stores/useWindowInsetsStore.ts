@@ -37,51 +37,49 @@ export const useWindowInsetsStore = defineStore('windowInsets', () =>
     const displayCutout = ref(parseInsets(Bridge.getDisplayCutoutWindowInsets()));
     const waterfall = ref(parseInsets(Bridge.getWaterfallWindowInsets()));
 
-    bridgeEvents.addEventListener((name, args) =>
+    bridgeEvents.addEventListener(ev =>
     {
-        console.log('@useWindowInsetsStore: onBridgeEvent:', name, JSON.stringify(args));
+        if (ev.name === 'statusBarsWindowInsetsChanged')
+            statusBars.value = ev.newValue;
+        else if (ev.name === 'statusBarsIgnoringVisibilityWindowInsetsChanged')
+            statusBarsIgnoringVisibility.value = ev.newValue;
 
-        if (name === 'statusBarsWindowInsetsChanged')
-            statusBars.value = args.newValue;
-        else if (name === 'statusBarsIgnoringVisibilityWindowInsetsChanged')
-            statusBarsIgnoringVisibility.value = args.newValue;
+        else if (ev.name === 'navigationBarsWindowInsetsChanged')
+            navigationBars.value = ev.newValue;
+        else if (ev.name === 'navigationBarsIgnoringVisibilityWindowInsetsChanged')
+            navigationBarsIgnoringVisibility.value = ev.newValue;
 
-        else if (name === 'navigationBarsWindowInsetsChanged')
-            navigationBars.value = args.newValue;
-        else if (name === 'navigationBarsIgnoringVisibilityWindowInsetsChanged')
-            navigationBarsIgnoringVisibility.value = args.newValue;
+        else if (ev.name === 'captionBarWindowInsetsChanged')
+            captionBar.value = ev.newValue;
+        else if (ev.name === 'captionBarIgnoringVisibilityWindowInsetsChanged')
+            captionBarIgnoringVisibility.value = ev.newValue;
 
-        else if (name === 'captionBarWindowInsetsChanged')
-            captionBar.value = args.newValue;
-        else if (name === 'captionBarIgnoringVisibilityWindowInsetsChanged')
-            captionBarIgnoringVisibility.value = args.newValue;
+        else if (ev.name === 'systemBarsWindowInsetsChanged')
+            systemBars.value = ev.newValue;
+        else if (ev.name === 'systemBarsIgnoringVisibilityWindowInsetsChanged')
+            systemBarsIgnoringVisibility.value = ev.newValue;
 
-        else if (name === 'systemBarsWindowInsetsChanged')
-            systemBars.value = args.newValue;
-        else if (name === 'systemBarsIgnoringVisibilityWindowInsetsChanged')
-            systemBarsIgnoringVisibility.value = args.newValue;
+        else if (ev.name === 'imeWindowInsetsChanged')
+            ime.value = ev.newValue;
+        else if (ev.name === 'imeAnimationSourceWindowInsetsChanged')
+            imeAnimationSource.value = ev.newValue;
+        else if (ev.name === 'imeAnimationTargetWindowInsetsChanged')
+            imeAnimationTarget.value = ev.newValue;
 
-        else if (name === 'imeWindowInsetsChanged')
-            ime.value = args.newValue;
-        else if (name === 'imeAnimationSourceWindowInsetsChanged')
-            imeAnimationSource.value = args.newValue;
-        else if (name === 'imeAnimationTargetWindowInsetsChanged')
-            imeAnimationTarget.value = args.newValue;
+        else if (ev.name === 'tappableElementWindowInsetsChanged')
+            tappableElement.value = ev.newValue;
+        else if (ev.name === 'tappableElementIgnoringVisibilityWindowInsetsChanged')
+            tappableElementIgnoringVisibility.value = ev.newValue;
 
-        else if (name === 'tappableElementWindowInsetsChanged')
-            tappableElement.value = args.newValue;
-        else if (name === 'tappableElementIgnoringVisibilityWindowInsetsChanged')
-            tappableElementIgnoringVisibility.value = args.newValue;
+        else if (ev.name === 'systemGesturesWindowInsetsChanged')
+            systemGestures.value = ev.newValue;
+        else if (ev.name === 'mandatorySystemGesturesWindowInsetsChanged')
+            mandatorySystemGestures.value = ev.newValue;
 
-        else if (name === 'systemGesturesWindowInsetsChanged')
-            systemGestures.value = args.newValue;
-        else if (name === 'mandatorySystemGesturesWindowInsetsChanged')
-            mandatorySystemGestures.value = args.newValue;
-
-        else if (name === 'displayCutoutWindowInsetsChanged')
-            displayCutout.value = args.newValue;
-        else if (name === 'waterfallWindowInsetsChanged')
-            waterfall.value = args.newValue;
+        else if (ev.name === 'displayCutoutWindowInsetsChanged')
+            displayCutout.value = ev.newValue;
+        else if (ev.name === 'waterfallWindowInsetsChanged')
+            waterfall.value = ev.newValue;
     });
 
     return {

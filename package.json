@@ -11,14 +11,14 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false"
   },
   "dependencies": {
+    "@bridgelauncher/api": "^0.1.0",
+    "@bridgelauncher/api-mock": "^0.1.0",
     "@mdi/js": "^7.3.67",
     "@vueuse/core": "^10.6.1",
     "pinia": "^2.1.7",
     "sass": "^1.69.5",
     "v-wave": "^1.5.1",
-    "vue": "^3.3.4",
-    "@bridgelauncher/api": "^0.0.3",
-    "@bridgelauncher/api-mock": "^0.0.3"
+    "vue": "^3.3.4"
   },
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",

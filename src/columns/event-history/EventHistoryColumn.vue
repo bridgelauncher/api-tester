@@ -1,71 +1,20 @@
 <script setup lang="ts">
-import type { BridgeEventMap, BridgeEventName } from '@bridgelauncher/api';
-import Card from '@/components/Card.vue';
-import IconButton from '@/components/buttons/IconButton.vue';
 import { useBridgeEventStore } from '@/stores/useBridgeEventStore';
 import { mdiNuke } from '@mdi/js';
 import { formatTimeAgo } from '@vueuse/core';
-import { computed } from 'vue';
+import Card from '@/components/Card.vue';
+import IconButton from '@/components/buttons/IconButton.vue';
+import Searchbar from '@/components/Searchbar.vue';
+import CheckboxField from '@/components/fields/CheckboxField.vue';
+import OptionStripField from '@/components/fields/OptionStripField.vue';
+import { p2 } from '@/utils/format-utils';
 
 const store = useBridgeEventStore();
 
-type EventCategory = 'apps' | 'system' | 'toggles' | 'insets';
-
-function categoryFor(name: BridgeEventName): EventCategory
+function getEntryTimestamp(time: Date)
 {
-    switch (name)
-    {
-        case 'appInstalled':
-        case 'appChanged':
-        case 'appRemoved':
-            return 'apps';
-
-        case 'beforePause':
-        case 'afterResume':
-        case 'canRequestSystemNightModeChanged':
-        case 'canLockScreenChanged':
-            return 'system';
-
-        case 'bridgeButtonVisibilityChanged':
-        case 'drawSystemWallpaperBehindWebViewChanged':
-        case 'systemNightModeChanged':
-        case 'bridgeThemeChanged':
-        case 'statusBarAppearanceChanged':
-        case 'navigationBarAppearanceChanged':
-            return 'toggles';
-
-        case 'statusBarsWindowInsetsChanged':
-        case 'statusBarsIgnoringVisibilityWindowInsetsChanged':
-
-        case 'navigationBarsWindowInsetsChanged':
-        case 'navigationBarsIgnoringVisibilityWindowInsetsChanged':
-
-        case 'captionBarWindowInsetsChanged':
-        case 'captionBarIgnoringVisibilityWindowInsetsChanged':
-
-        case 'systemBarsWindowInsetsChanged':
-        case 'systemBarsIgnoringVisibilityWindowInsetsChanged':
-
-        case 'imeWindowInsetsChanged':
-        case 'imeAnimationSourceWindowInsetsChanged':
-        case 'imeAnimationTargetWindowInsetsChanged':
-
-        case 'tappableElementWindowInsetsChanged':
-        case 'tappableElementIgnoringVisibilityWindowInsetsChanged':
-
-        case 'systemGesturesWindowInsetsChanged':
-        case 'mandatorySystemGesturesWindowInsetsChanged':
-
-        case 'displayCutoutWindowInsetsChanged':
-        case 'waterfallWindowInsetsChanged':
-            return 'insets';
-
-        default:
-            return 'system';
-    }
+    return `${p2(time.getHours())}:${p2(time.getMinutes())}:${p2(time.getSeconds())}.${time.getMilliseconds().toString().padEnd(3, '0')}`
 }
-
-const entries = computed(() => store.eventHistory.slice().reverse());
 
 </script>
 
@@ -79,19 +28,38 @@ const entries = computed(() => store.eventHistory.slice().reverse());
                     @click="store.clearHistory()" />
             </template>
 
+            <Searchbar v-model="store.searchPhrase" />
+
+            <div class="separator"></div>
+
+            <div class="checkbox-container">
+                <OptionStripField
+                    label=""
+                    :options="[
+                        ['No JSON', 'none'],
+                        ['Normal', 'normal'],
+                        ['Indented', 'indented'],
+                    ]"
+                    v-model="store.jsonDisplay" />
+                <CheckboxField label="WindowInsets" v-model="store.showWindowInsetEvents" />
+            </div>
+
+            <div class="separator"></div>
+
             <main>
-                <div v-for="entry in entries" class="entry col">
+                <div v-for="entry in store.eventHistoryFiltered" class="entry col">
                     <div class="sec">
-                        <span class="uppercase">{{ categoryFor(entry.event[0]) }}</span>
+                        <span class="uppercase">{{ entry.category }}</span>
                         <span class="bullet"></span>
                         <span :title="entry.time.toLocaleString()">
-                            {{ formatTimeAgo(entry.time) }}
+                            {{ getEntryTimestamp(entry.time) }}
+                            <span class="type-sec">({{ formatTimeAgo(entry.time) }})</span>
                         </span>
                     </div>
-                    <div class="pri"><b>{{ entry.event[0] }}</b></div>
-                    <div class="sec type-mono">
-                        {{ JSON.stringify(entry.event[1]) }}
-                    </div>
+                    <div class="pri"><b>{{ entry.event.name }}</b></div>
+                    <div v-if="store.jsonDisplay !== 'none'"
+                        class="sec type-mono keep-whitespace"
+                        v-text="JSON.stringify(entry.event, undefined, store.jsonDisplay === 'indented' ? 2 : 0)"></div>
                 </div>
             </main>
 
@@ -103,6 +71,33 @@ const entries = computed(() => store.eventHistory.slice().reverse());
 .card > main {
     padding-left: 0;
     padding-right: 0;
+}
+
+.checkbox-container {
+    display: flex;
+    flex-direction: row;
+    padding: sz.$pad-min;
+    gap: sz.$pad-min;
+
+    > .option-strip {
+        flex: 1;
+
+        @media screen and (max-width: 420px) {
+            font-family: t.$ff-main;
+            font-size: sz.$font-sec;
+            color: c.$text-sec;
+        }
+    }
+
+    > .checkbox.field {
+        margin: 0;
+        width: auto;
+    }
+}
+
+.keep-whitespace {
+    white-space: pre-wrap;
+    word-break: break-word;
 }
 
 .entry {
